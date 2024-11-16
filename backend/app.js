@@ -10,6 +10,7 @@ import { dbConnection } from "./database/dbConnection.js";
 import userRouter from "./routes/userRoutes.js";
 import jobRouter from "./routes/jobRoutes.js";
 import applicationRouter from "./routes/applicationRoutes.js";
+import tpoRouter from "./routes/tpoRoutes.js";
 
 
 const app = express();
@@ -38,6 +39,7 @@ app.use(
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/job", jobRouter);
 app.use("/api/v1/application", applicationRouter);
+app.use("/api/v1/tpo", tpoRouter);
 dbConnection();
 
 app.use(errorMiddleware);
