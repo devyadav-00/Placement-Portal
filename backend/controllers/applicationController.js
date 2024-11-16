@@ -90,7 +90,7 @@ export const employerGetAllApplications = catchAsyncErrors(
     const { role } = req.user;
     if (role === "Job Seeker") {
       return next(
-        new ErrorHandler("Job Seeker not allowed to access this resource.", 400)
+        new ErrorHandler("Students not allowed to access this resource.", 400)
       );
     }
     const { jobId } = req.query;
@@ -140,3 +140,15 @@ export const jobseekerDeleteApplication = catchAsyncErrors(
     });
   }
 );
+
+
+
+// export const getApplicationsCount = async (req, res) => {
+//     try {
+//         const { jobId } = req.params;
+//         const count = await Job.countDocuments({ jobId });
+//         return res.status(200).json({ jobId, count });
+//     } catch (error) {
+//         return res.status(500).json({ message: 'Error fetching application count', error });
+//     }
+// };

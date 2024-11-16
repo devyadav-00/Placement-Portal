@@ -25,9 +25,9 @@ const jobSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide a city name."],
   },
-  location: {
+  company: {
     type: String,
-    required: [true, "Please provide location."],
+    required: [true, "Please provide company name."],
   },
   fixedSalary: {
     type: Number,

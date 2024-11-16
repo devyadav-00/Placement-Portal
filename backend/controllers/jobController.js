@@ -1,6 +1,7 @@
 import { catchAsyncErrors } from "../middlewares/catchAsyncError.js";
 import { Job } from "../models/jobSchema.js";
 import ErrorHandler from "../middlewares/error.js";
+import { Application } from "../models/applicationSchema.js";
 
 export const getAllJobs = catchAsyncErrors(async (req, res, next) => {
   const jobs = await Job.find({ expired: false });
@@ -23,13 +24,13 @@ export const postJob = catchAsyncErrors(async (req, res, next) => {
     category,
     country,
     city,
-    location,
+    company,
     fixedSalary,
     salaryFrom,
     salaryTo,
   } = req.body;
 
-  if (!title || !description || !category || !country || !city || !location) {
+  if (!title || !description || !category || !country || !city || !company) {
     return next(new ErrorHandler("Please provide full job details.", 400));
   }
 
@@ -54,7 +55,7 @@ export const postJob = catchAsyncErrors(async (req, res, next) => {
     category,
     country,
     city,
-    location,
+    company,
     fixedSalary,
     salaryFrom,
     salaryTo,
@@ -69,17 +70,34 @@ export const postJob = catchAsyncErrors(async (req, res, next) => {
 
 export const getMyJobs = catchAsyncErrors(async (req, res, next) => {
   const { role } = req.user;
+
   if (role === "Job Seeker") {
     return next(
-      new ErrorHandler("Job Seeker not allowed to access this resource.", 400)
+      new ErrorHandler("Students not allowed to access this resource.", 400)
     );
   }
+
   const myJobs = await Job.find({ postedBy: req.user._id });
+
+  // Fetch application counts for each job
+  const jobIds = myJobs.map(job => job._id);
+  const applicationCounts = await Application.aggregate([
+    { $match: { jobId: { $in: jobIds } } },
+    { $group: { _id: "$jobId", count: { $sum: 1 } } }
+  ]);
+
+  // Map counts to the jobs
+  const jobsWithCounts = myJobs.map(job => {
+    const applicationCount = applicationCounts.find(app => String(app._id) === String(job._id))?.count || 0;
+    return { ...job.toObject(), applicationCount };
+  });
+
   res.status(200).json({
     success: true,
-    myJobs,
+    myJobs: jobsWithCounts,
   });
 });
+
 
 export const updateJob = catchAsyncErrors(async (req, res, next) => {
   const { role } = req.user;
