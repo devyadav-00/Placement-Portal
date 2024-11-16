@@ -31,7 +31,7 @@ const Navbar = () => {
       <div className="container">
         <div className="heading">
           <div className="logo">
-            <img src="/JobZeelogo.png" alt="logo" />
+            <img src="/nita.png" alt="logo" />
           </div>
           <div className="letter">
             National Institute of Technology Agartala
