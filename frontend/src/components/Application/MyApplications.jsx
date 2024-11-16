@@ -21,7 +21,7 @@ const MyApplications = () => {
             withCredentials: true,
           })
           .then((res) => {
-            console.log("response employer", res);
+            // console.log("response employer", res);
 
             setApplications(res.data.myJobs);
           });
@@ -31,7 +31,7 @@ const MyApplications = () => {
             withCredentials: true,
           })
           .then((res) => {
-            console.log("response", res);
+            // console.log("response", res);
 
             setApplications(res.data.applications);
           });
@@ -71,7 +71,7 @@ const MyApplications = () => {
     setModalOpen(false);
   };
 
-  console.log("applications", applications);
+  // console.log("applications", applications);
 
   return (
     <section className="my_applications page">
@@ -143,7 +143,7 @@ const JobSeekerCard = ({ element, deleteApplication, openModal }) => {
             <span>City:</span> {element?.jobId?.city}
           </p>
           <p>
-            <span>Location:</span> {element?.jobId?.location}
+            <span>Company:</span> {element?.jobId?.company}
           </p>
           <p>
             <span>Job Posted On:</span> {element?.jobId?.jobPostedOn}
@@ -186,6 +186,15 @@ const JobSeekerCard = ({ element, deleteApplication, openModal }) => {
 
 const EmployerCard = ({ element, openModal }) => {
   console.log("element", element);
+  const formattedDate = new Date(element.jobPostedOn).toLocaleDateString("en-US", {
+    // weekday: "long", // e.g., Saturday
+    year: "numeric", // e.g., 2024
+    month: "long", // e.g., November
+    day: "numeric", // e.g., 16
+    hour: "2-digit", // e.g., 10 AM
+    minute: "2-digit", // e.g., 29
+  });
+// console.log('formattedDate',formattedDate);
 
   return (
     <>
@@ -205,13 +214,16 @@ const EmployerCard = ({ element, openModal }) => {
               City: <span>{element.city}</span>
             </p>
             <p>
-              Location: <span>{element.location}</span>
+              Company: <span>{element.company}</span>
             </p>
             <p>
               Description: <span>{element.description}</span>
             </p>
             <p>
-              Job Posted On: <span>{element.jobPostedOn}</span>
+              Job Posted On: <span>{formattedDate}</span>
+            </p>
+            <p>
+              Application Count: <span>{element.applicationCount}</span>
             </p>
           </div>
         </Link>

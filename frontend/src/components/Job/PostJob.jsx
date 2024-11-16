@@ -12,7 +12,7 @@ const PostJob = () => {
   const [category, setCategory] = useState("");
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
-  const [location, setLocation] = useState("");
+  const [company, setCompany] = useState("");
   const [salaryFrom, setSalaryFrom] = useState("");
   const [salaryTo, setSalaryTo] = useState("");
   const [fixedSalary, setFixedSalary] = useState("");
@@ -47,7 +47,7 @@ const PostJob = () => {
               category,
               country,
               city,
-              location,
+              company,
               fixedSalary,
             }
           : {
@@ -56,7 +56,7 @@ const PostJob = () => {
               category,
               country,
               city,
-              location,
+              company,
               salaryFrom,
               salaryTo,
             },
@@ -74,7 +74,7 @@ const PostJob = () => {
         setCategory("");
         setCountry("");
         setCity("");
-        setLocation("");
+        setCompany("");
         setSalaryFrom("");
         setSalaryTo("");
         setFixedSalary("");
@@ -98,6 +98,12 @@ const PostJob = () => {
         <div className="container">
           <h3>POST NEW JOB</h3>
           <form onSubmit={handleJobPost}>
+            <input
+              type="text"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
+              placeholder="Company"
+            />
             <div className="wrapper">
               <input
                 type="text"
@@ -112,30 +118,25 @@ const PostJob = () => {
                 <option value="" disabled>
                   Select Category
                 </option>
-                <option value="Graphics & Design">Graphics & Design</option>
+                <option value="Data Analyst">Data Analyst</option>
                 <option value="Mobile App Development">
                   Mobile App Development
                 </option>
-                <option value="Frontend Web Development">
-                  Frontend Web Development
+                <option value="Frontend Development">
+                  Frontend Development
                 </option>
-                <option value="MERN Stack Development">
-                  MERN STACK Development
+                <option value="Web Development">
+                  Web Development
                 </option>
                 <option value="Account & Finance">Account & Finance</option>
-                <option value="Artificial Intelligence">
-                  Artificial Intelligence
-                </option>
-                <option value="Video Animation">Video Animation</option>
-                <option value="MEAN Stack Development">
-                  MEAN STACK Development
-                </option>
-                <option value="MEVN Stack Development">
-                  MEVN STACK Development
-                </option>
-                <option value="Data Entry Operator">Data Entry Operator</option>
+                <option value="System Engineer">System Engineer</option>
+                <option value="Graduate Trainee">Graduate Trainee</option>
+                <option value="Data Scientist">Data Scientist</option>
+                <option value="Machine Learning">Machine Learning</option>
+                <option value="BDA">Business Development Analyst</option>
               </select>
             </div>
+
             <div className="wrapper">
               <input
                 type="text"
@@ -150,12 +151,6 @@ const PostJob = () => {
                 placeholder="City"
               />
             </div>
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              placeholder="Location"
-            />
             <div className="salary_wrapper">
               <select
                 value={salaryType}

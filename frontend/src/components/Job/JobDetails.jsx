@@ -26,7 +26,7 @@ const JobDetails = () => {
     fetch();
   }, []);
 
-  console.log("job", job);
+  // console.log("job", job);
 
   if (!isAuthorized) {
     navigateTo("/login");
@@ -37,6 +37,9 @@ const JobDetails = () => {
       <div className="container">
         <h3>Job Details</h3>
         <div className="banner">
+          <p>
+            Company: <span>{job.company}</span>
+          </p>
           <p>
             Title: <span> {job.title}</span>
           </p>
@@ -49,9 +52,7 @@ const JobDetails = () => {
           <p>
             City: <span>{job.city}</span>
           </p>
-          <p>
-            Location: <span>{job.location}</span>
-          </p>
+
           <p>
             Description: <span>{job.description}</span>
           </p>
@@ -70,10 +71,10 @@ const JobDetails = () => {
           </p>
           <p>
             Posted By:{" "}
-            <div>
+            <span>
               {job?.postedBy?.name} <br /> {job?.postedBy?.email} <br />{" "}
               {job?.postedBy?.phone}
-            </div>
+            </span>
           </p>
           {user && user.role === "Employer" ? (
             <></>

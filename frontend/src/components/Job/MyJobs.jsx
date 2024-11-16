@@ -96,6 +96,23 @@ const MyJobs = () => {
                     <div className="content">
                       <div className="short_fields">
                         <div>
+                          {" "}
+                          <span>Company: </span>
+                          <input
+                            value={element.company}
+                            disabled={
+                              editingMode !== element._id ? true : false
+                            }
+                            onChange={(e) =>
+                              handleInputChange(
+                                element._id,
+                                "company",
+                                e.target.value
+                              )
+                            }
+                          />{" "}
+                        </div>
+                        <div>
                           <span>Title:</span>
                           <input
                             type="text"
@@ -107,24 +124,6 @@ const MyJobs = () => {
                               handleInputChange(
                                 element._id,
                                 "title",
-                                e.target.value
-                              )
-                            }
-                          />
-                        </div>
-                        <div>
-                          {" "}
-                          <span>Country:</span>
-                          <input
-                            type="text"
-                            disabled={
-                              editingMode !== element._id ? true : false
-                            }
-                            value={element.country}
-                            onChange={(e) =>
-                              handleInputChange(
-                                element._id,
-                                "country",
                                 e.target.value
                               )
                             }
@@ -240,16 +239,17 @@ const MyJobs = () => {
                           />
                         </div>
                         <div>
-                          <span>Location: </span>
+                          <span>Country:</span>
                           <input
-                            value={element.location}
+                            type="text"
                             disabled={
                               editingMode !== element._id ? true : false
                             }
+                            value={element.country}
                             onChange={(e) =>
                               handleInputChange(
                                 element._id,
-                                "location",
+                                "country",
                                 e.target.value
                               )
                             }
@@ -270,35 +270,33 @@ const MyJobs = () => {
                               editingMode !== element._id ? true : false
                             }
                           >
-                            <option value="Graphics & Design">
-                              Graphics & Design
-                            </option>
+                            <option value="Data Analyst">Data Analyst</option>
                             <option value="Mobile App Development">
                               Mobile App Development
                             </option>
-                            <option value="Frontend Web Development">
-                              Frontend Web Development
+                            <option value="Frontend Development">
+                              Frontend Development
                             </option>
-                            <option value="MERN Stack Development">
-                              MERN STACK Development
+                            <option value="Web Development">
+                              Web Development
                             </option>
                             <option value="Account & Finance">
                               Account & Finance
                             </option>
-                            <option value="Artificial Intelligence">
-                              Artificial Intelligence
+                            <option value="System Engineer">
+                              System Engineer
                             </option>
-                            <option value="Video Animation">
-                              Video Animation
+                            <option value="Graduate Trainee">
+                              Graduate Trainee
                             </option>
-                            <option value="MEAN Stack Development">
-                              MEAN STACK Development
+                            <option value="Data Scientist">
+                              Data Scientist
                             </option>
-                            <option value="MEVN Stack Development">
-                              MEVN STACK Development
+                            <option value="Machine Learning">
+                              Machine Learning
                             </option>
-                            <option value="Data Entry Operator">
-                              Data Entry Operator
+                            <option value="BDA">
+                              Business Development Analyst
                             </option>
                           </select>
                         </div>
