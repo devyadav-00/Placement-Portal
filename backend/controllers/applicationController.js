@@ -6,11 +6,13 @@ import cloudinary from "cloudinary";
 
 export const postApplication = catchAsyncErrors(async (req, res, next) => {
   const { role } = req.user;
+
   if (role === "Employer") {
     return next(
       new ErrorHandler("Employer not allowed to access this resource.", 400)
     );
   }
+
   if (!req.files || Object.keys(req.files).length === 0) {
     return next(new ErrorHandler("Resume File Required!", 400));
   }
@@ -22,6 +24,7 @@ export const postApplication = catchAsyncErrors(async (req, res, next) => {
       new ErrorHandler("Invalid file type. Please upload a PNG file.", 400)
     );
   }
+
   const cloudinaryResponse = await cloudinary.uploader.upload(
     resume.tempFilePath
   );
@@ -33,14 +36,17 @@ export const postApplication = catchAsyncErrors(async (req, res, next) => {
     );
     return next(new ErrorHandler("Failed to upload Resume to Cloudinary", 500));
   }
+
   const { name, email, coverLetter, phone, address, jobId, enrolment } = req.body;
   const applicantID = {
     user: req.user._id,
     role: "Job Seeker",
   };
+
   if (!jobId) {
     return next(new ErrorHandler("Job not found!", 404));
   }
+
   const jobDetails = await Job.findById(jobId);
   if (!jobDetails) {
     return next(new ErrorHandler("Job not found!", 404));
@@ -50,6 +56,7 @@ export const postApplication = catchAsyncErrors(async (req, res, next) => {
     user: jobDetails.postedBy,
     role: "Employer",
   };
+
   if (
     !name ||
     !email ||
@@ -63,6 +70,21 @@ export const postApplication = catchAsyncErrors(async (req, res, next) => {
   ) {
     return next(new ErrorHandler("Please fill all fields.", 400));
   }
+
+  const existingApplication = await Application.findOne({
+    "applicantID.user": req.user._id,
+    jobId,
+  });
+
+  if (existingApplication) {
+    return next(
+      new ErrorHandler(
+        "You have already submitted an application for this job.",
+        400
+      )
+    );
+  }
+
   const application = await Application.create({
     name,
     email,
@@ -78,12 +100,14 @@ export const postApplication = catchAsyncErrors(async (req, res, next) => {
       url: cloudinaryResponse.secure_url,
     },
   });
+
   res.status(200).json({
     success: true,
     message: "Application Submitted!",
     application,
   });
 });
+
 
 export const employerGetAllApplications = catchAsyncErrors(
   async (req, res, next) => {
