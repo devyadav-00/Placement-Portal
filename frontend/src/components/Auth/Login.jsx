@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLock2Fill } from "react-icons/ri";
 import { Link, Navigate } from "react-router-dom";
@@ -59,7 +59,7 @@ const Login = () => {
               <div>
                 <select value={role} onChange={(e) => setRole(e.target.value)}>
                   <option value="" disabled>Select Role</option>
-                  <option value="Employer">TPOs</option>
+                  <option value="Employer">TNPs</option>
                   <option value="Job Seeker">Students</option>
                 </select>
                 <FaRegUser />
@@ -72,6 +72,7 @@ const Login = () => {
                   type="email"
                   placeholder="example@email.com"
                   value={email}
+                  required
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <MdOutlineMailOutline />
@@ -84,6 +85,7 @@ const Login = () => {
                   type="password"
                   placeholder="Password"
                   value={password}
+                  required
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <RiLock2Fill />

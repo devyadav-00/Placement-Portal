@@ -1,9 +1,9 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { FaPhone, FaRegUser } from "react-icons/fa";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLock2Fill } from "react-icons/ri";
 import { FaPencilAlt } from "react-icons/fa";
-import { FaLocationPin, FaPhoneFlip } from "react-icons/fa6";
+import { FaLocationPin } from "react-icons/fa6";
 import { Link, Navigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -18,10 +18,12 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
 
-  const { isAuthorized, setIsAuthorized, user, setUser } = useContext(Context);
+  const { isAuthorized, setIsAuthorized } = useContext(Context);
+  const [loader, setLoader] = useState(false);
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setLoader(true);
     try {
       const { data } = await axios.post(
         "http://localhost:4000/api/v1/user/register",
@@ -44,6 +46,8 @@ const Register = () => {
       setIsAuthorized(true);
     } catch (error) {
       toast.error(error.response.data.message);
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -67,7 +71,7 @@ const Register = () => {
                   <option value="" disabled>
                     Select Role
                   </option>
-                  <option value="Employer">TPOs</option>
+                  <option value="Employer">TNPs</option>
                   <option value="Job Seeker">Students</option>
                 </select>
                 <FaRegUser />
@@ -81,6 +85,7 @@ const Register = () => {
                   placeholder="Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  required
                 />
                 <FaPencilAlt />
               </div>
@@ -93,6 +98,7 @@ const Register = () => {
                   placeholder="example@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
                 <MdOutlineMailOutline />
               </div>
@@ -100,12 +106,21 @@ const Register = () => {
             <div className="inputTag">
               <label>Phone Number</label>
               <div>
-                <input
-                  type="number"
-                  placeholder="9876543210"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
+              <input
+                 type="tel"
+                 placeholder="98XXXXXXXX"
+                 title="Please enter a valid phone number"
+                 pattern="[6789][0-9]{9}"
+                 value={phone}
+                 onChange={(e) => {
+                 const value = e.target.value;
+                 if (/^[0-9]{0,10}$/.test(value)) {
+                  setPhone(value);
+                  }
+                  }}
+                  required
+              />
+
                 <FaPhone />
               </div>
             </div>
@@ -118,6 +133,7 @@ const Register = () => {
                     placeholder="Enter enrolment number"
                     value={enrolment}
                     onChange={(e) => setEnrolment(e.target.value)}
+                    required
                   />
                   <FaPencilAlt />
                 </div>
@@ -131,6 +147,7 @@ const Register = () => {
                   placeholder="Enter your address"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
+                  required
                 />
                 <FaLocationPin />
               </div>
@@ -143,12 +160,15 @@ const Register = () => {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
                 <RiLock2Fill />
               </div>
             </div>
-            <button type="submit" onClick={handleRegister}>
-              Register
+            <button type="submit" onClick={handleRegister} 
+              disabled={loader}
+            >
+              {loader ? "Loading..." : "Register"}
             </button>
             <Link to={"/login"}>Login Now</Link>
           </form>
