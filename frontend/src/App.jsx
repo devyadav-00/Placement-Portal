@@ -24,6 +24,9 @@ const MyJobs = lazy(() => import("./components/Job/MyJobs"));
 const JobApplications = lazy(() =>
   import("./components/Application/JobApplications")
 );
+const TPOLogin = lazy(() => import("./components/TPO/Login"));
+const TPORegister = lazy(() => import("./components/TPO/Register"));
+
 
 axios.defaults.baseURL = "http://localhost:4000";
 
@@ -68,6 +71,10 @@ const App = () => {
             <Route path="/applications/:jobId" element={<JobApplications />} />
             <Route path="/job/post" element={<PostJob />} />
             <Route path="/job/me" element={<MyJobs />} />
+            <Route path="/tpo/login" element={<TPOLogin />} />
+            <Route path="/tpo/register" element={<TPORegister />} />
+            <Route path="/tpo/home" element={<MyJobs />} />
+            <Route path="/tpo/tnp/:id" element={<MyJobs />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Toaster />
