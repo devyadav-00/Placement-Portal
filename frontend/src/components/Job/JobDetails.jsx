@@ -76,10 +76,10 @@ const JobDetails = () => {
               {job?.postedBy?.phone}
             </span>
           </p>
-          {user && user.role === "TNP" ? (
-            <></>
-          ) : (
+          {user && user.role === "Student" ? (
             <Link to={`/application/${job._id}`}>Apply Now</Link>
+          ) : (
+            <></>
           )}
         </div>
       </div>
