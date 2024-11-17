@@ -13,9 +13,9 @@ export const getAllJobs = catchAsyncErrors(async (req, res, next) => {
 
 export const postJob = catchAsyncErrors(async (req, res, next) => {
   const { role } = req.user;
-  if (role === "Job Seeker") {
+  if (role === "Student") {
     return next(
-      new ErrorHandler("Job Seeker not allowed to access this resource.", 400)
+      new ErrorHandler("Student not allowed to access this resource.", 400)
     );
   }
   const {
@@ -71,7 +71,7 @@ export const postJob = catchAsyncErrors(async (req, res, next) => {
 export const getMyJobs = catchAsyncErrors(async (req, res, next) => {
   const { role } = req.user;
 
-  if (role === "Job Seeker") {
+  if (role === "Student") {
     return next(
       new ErrorHandler("Students not allowed to access this resource.", 400)
     );
@@ -80,15 +80,17 @@ export const getMyJobs = catchAsyncErrors(async (req, res, next) => {
   const myJobs = await Job.find({ postedBy: req.user._id });
 
   // Fetch application counts for each job
-  const jobIds = myJobs.map(job => job._id);
+  const jobIds = myJobs.map((job) => job._id);
   const applicationCounts = await Application.aggregate([
     { $match: { jobId: { $in: jobIds } } },
-    { $group: { _id: "$jobId", count: { $sum: 1 } } }
+    { $group: { _id: "$jobId", count: { $sum: 1 } } },
   ]);
 
   // Map counts to the jobs
-  const jobsWithCounts = myJobs.map(job => {
-    const applicationCount = applicationCounts.find(app => String(app._id) === String(job._id))?.count || 0;
+  const jobsWithCounts = myJobs.map((job) => {
+    const applicationCount =
+      applicationCounts.find((app) => String(app._id) === String(job._id))
+        ?.count || 0;
     return { ...job.toObject(), applicationCount };
   });
 
@@ -98,12 +100,11 @@ export const getMyJobs = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-
 export const updateJob = catchAsyncErrors(async (req, res, next) => {
   const { role } = req.user;
-  if (role === "Job Seeker") {
+  if (role === "Student") {
     return next(
-      new ErrorHandler("Job Seeker not allowed to access this resource.", 400)
+      new ErrorHandler("Student not allowed to access this resource.", 400)
     );
   }
   const { id } = req.params;
@@ -124,9 +125,9 @@ export const updateJob = catchAsyncErrors(async (req, res, next) => {
 
 export const deleteJob = catchAsyncErrors(async (req, res, next) => {
   const { role } = req.user;
-  if (role === "Job Seeker") {
+  if (role === "Student") {
     return next(
-      new ErrorHandler("Job Seeker not allowed to access this resource.", 400)
+      new ErrorHandler("Student not allowed to access this resource.", 400)
     );
   }
   const { id } = req.params;

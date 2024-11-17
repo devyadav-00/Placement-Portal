@@ -16,9 +16,16 @@ const tpoSchema = new mongoose.Schema(
     },
     phone: { type: String, required: true, unique: true, trim: true },
     password: { type: String, required: true, select: false },
+    // notifications: [
+    //   {
+    //     message: { type: String, required: true },
+    //     createdAt: { type: Date, default: Date.now },
+    //   },
+    // ],
   },
   { timestamps: true }
 );
+
 
 tpoSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();

@@ -20,8 +20,7 @@ const JobApplications = () => {
     try {
       axios
         .get(
-          "http://localhost:4000/api/v1/application/employer/getall?jobId=" +
-            jobId,
+          "http://localhost:4000/api/v1/application/TNP/getall?jobId=" + jobId,
           {
             withCredentials: true,
           }
@@ -52,7 +51,7 @@ const JobApplications = () => {
   return (
     <section className="my_applications page">
       <div className="container">
-        <h1>Applications From Job Seekers</h1>
+        <h1>Applications From Students</h1>
         {applications.length <= 0 ? (
           <>
             <h4>No Applications Found</h4>
@@ -60,7 +59,7 @@ const JobApplications = () => {
         ) : (
           applications.map((element) => {
             return (
-              <EmployerCard
+              <TNPCard
                 element={element}
                 key={element._id}
                 openModal={openModal}
@@ -79,7 +78,7 @@ const JobApplications = () => {
 
 export default JobApplications;
 
-const EmployerCard = ({ element, openModal }) => {
+const TNPCard = ({ element, openModal }) => {
   return (
     <>
       <div className="job_seeker_card">

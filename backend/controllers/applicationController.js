@@ -7,9 +7,9 @@ import cloudinary from "cloudinary";
 export const postApplication = catchAsyncErrors(async (req, res, next) => {
   const { role } = req.user;
 
-  if (role === "Employer") {
+  if (role === "TNP") {
     return next(
-      new ErrorHandler("Employer not allowed to access this resource.", 400)
+      new ErrorHandler("TNP not allowed to access this resource.", 400)
     );
   }
 
@@ -37,10 +37,11 @@ export const postApplication = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Failed to upload Resume to Cloudinary", 500));
   }
 
-  const { name, email, coverLetter, phone, address, jobId, enrolment } = req.body;
+  const { name, email, coverLetter, phone, address, jobId, enrollment } =
+    req.body;
   const applicantID = {
     user: req.user._id,
-    role: "Job Seeker",
+    role: "Student",
   };
 
   if (!jobId) {
@@ -52,9 +53,9 @@ export const postApplication = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Job not found!", 404));
   }
 
-  const employerID = {
+  const TNPID = {
     user: jobDetails.postedBy,
-    role: "Employer",
+    role: "TNP",
   };
 
   if (
@@ -64,9 +65,9 @@ export const postApplication = catchAsyncErrors(async (req, res, next) => {
     !phone ||
     !address ||
     !applicantID ||
-    !employerID ||
+    !TNPID ||
     !resume ||
-    !enrolment
+    !enrollment
   ) {
     return next(new ErrorHandler("Please fill all fields.", 400));
   }
@@ -90,10 +91,10 @@ export const postApplication = catchAsyncErrors(async (req, res, next) => {
     email,
     coverLetter,
     phone,
-    enrolment,
+    enrollment,
     address,
     applicantID,
-    employerID,
+    TNPID,
     jobId,
     resume: {
       public_id: cloudinaryResponse.public_id,
@@ -108,18 +109,17 @@ export const postApplication = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-
-export const employerGetAllApplications = catchAsyncErrors(
+export const TNPGetAllApplications = catchAsyncErrors(
   async (req, res, next) => {
     const { role } = req.user;
-    if (role === "Job Seeker") {
+    if (role === "Student") {
       return next(
         new ErrorHandler("Students not allowed to access this resource.", 400)
       );
     }
     const { jobId } = req.query;
     const { _id } = req.user;
-    const applications = await Application.find({ "jobId": jobId });
+    const applications = await Application.find({ jobId: jobId });
     res.status(200).json({
       success: true,
       applications,
@@ -130,13 +130,15 @@ export const employerGetAllApplications = catchAsyncErrors(
 export const jobseekerGetAllApplications = catchAsyncErrors(
   async (req, res, next) => {
     const { role } = req.user;
-    if (role === "Employer") {
+    if (role === "TNP") {
       return next(
-        new ErrorHandler("Employer not allowed to access this resource.", 400)
+        new ErrorHandler("TNP not allowed to access this resource.", 400)
       );
     }
     const { _id } = req.user;
-    const applications = await Application.find({ "applicantID.user": _id }).populate("jobId", "title category country city location");
+    const applications = await Application.find({
+      "applicantID.user": _id,
+    }).populate("jobId", "title category country city location");
     res.status(200).json({
       success: true,
       applications,
@@ -147,9 +149,9 @@ export const jobseekerGetAllApplications = catchAsyncErrors(
 export const jobseekerDeleteApplication = catchAsyncErrors(
   async (req, res, next) => {
     const { role } = req.user;
-    if (role === "Employer") {
+    if (role === "TNP") {
       return next(
-        new ErrorHandler("Employer not allowed to access this resource.", 400)
+        new ErrorHandler("TNP not allowed to access this resource.", 400)
       );
     }
     const { id } = req.params;
@@ -164,8 +166,6 @@ export const jobseekerDeleteApplication = catchAsyncErrors(
     });
   }
 );
-
-
 
 // export const getApplicationsCount = async (req, res) => {
 //     try {

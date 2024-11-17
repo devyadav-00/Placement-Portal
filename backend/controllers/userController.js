@@ -2,27 +2,45 @@ import { catchAsyncErrors } from "../middlewares/catchAsyncError.js";
 import { User } from "../models/userSchema.js";
 import ErrorHandler from "../middlewares/error.js";
 import { sendToken } from "../utils/jwtToken.js";
+import { TPO } from "../models/tpoModel.js";
 
 export const register = catchAsyncErrors(async (req, res, next) => {
-  const { name, email, phone, password, role, enrolment, address } = req.body;
+  const { name, email, phone, password, role, enrollment, address } = req.body;
+
   if (!name || !email || !phone || !password || !role || !address) {
-    return next(new ErrorHandler("Please fill full form!"));
+    return next(new ErrorHandler("Please fill the complete form!"));
   }
+
   const isEmail = await User.findOne({ email });
   if (isEmail) {
     return next(new ErrorHandler("Email already registered!"));
   }
+
   const user = await User.create({
     name,
     email,
     phone,
     password,
     role,
-    enrolment,
+    enrollment,
     address,
   });
+
+  
+  // if (role === "TNP") {
+  //   const tpos = await TPO.find();
+  //   const notificationMessage = `New TNP registration request from ${name} (${email}).`;
+
+  //   for (const tpo of tpos) {
+  //     tpo.notifications.push({ message: notificationMessage });
+  //     await tpo.save();
+  //   }
+  // }
+
+  
   sendToken(user, 201, res, "User Registered!");
 });
+
 
 export const login = catchAsyncErrors(async (req, res, next) => {
   const { email, password, role } = req.body;
@@ -57,7 +75,6 @@ export const logout = catchAsyncErrors(async (req, res, next) => {
       message: "Logged Out Successfully.",
     });
 });
-
 
 export const getUser = catchAsyncErrors((req, res, next) => {
   const user = req.user;

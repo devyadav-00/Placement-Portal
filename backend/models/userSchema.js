@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -14,7 +15,7 @@ const userSchema = new mongoose.Schema({
     required: [true, "Please enter your Email!"],
     validate: [validator.isEmail, "Please provide a valid Email!"],
   },
-  enrolment: {
+  enrollment: {
     type: String,
   },
   address: {
@@ -35,14 +36,23 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     required: [true, "Please select a role"],
-    enum: ["Job Seeker", "Employer"],
+    enum: ["Student", "TNP"],
+  },
+  status: {
+    type: String,
+    enum: ["Pending", "Approved", "Declined"],
+    default: function () {
+      return this.role === "TNP" ? "Pending" : undefined;
+    },
+    required: function () {
+      return this.role === "TNP";
+    },
   },
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
-
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {

@@ -13,7 +13,7 @@ const applicationSchema = new mongoose.Schema({
     required: [true, "Please enter your Email!"],
     validate: [validator.isEmail, "Please provide a valid Email!"],
   },
-  enrolment: {
+  enrollment: {
     type: String,
   },
   coverLetter: {
@@ -46,11 +46,11 @@ const applicationSchema = new mongoose.Schema({
     },
     role: {
       type: String,
-      enum: ["Job Seeker"],
+      enum: ["Student"],
       required: true,
     },
   },
-  employerID: {
+  TNPID: {
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -58,7 +58,7 @@ const applicationSchema = new mongoose.Schema({
     },
     role: {
       type: String,
-      enum: ["Employer"],
+      enum: ["TNP"],
       required: true,
     },
   },
