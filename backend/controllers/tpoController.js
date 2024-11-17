@@ -102,3 +102,13 @@ export const handleTNPRequest = catchAsyncErrors(async (req, res, next) => {
       pendingTNPs,
     });
   });
+
+  export const getTPO = catchAsyncErrors((req, res, next) => {
+    const user = req.user;
+    console.log(user);
+    
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  });

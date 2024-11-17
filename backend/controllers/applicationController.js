@@ -138,7 +138,10 @@ export const jobseekerGetAllApplications = catchAsyncErrors(
     const { _id } = req.user;
     const applications = await Application.find({
       "applicantID.user": _id,
-    }).populate("jobId", "title category country city location");
+    }).populate(
+      "jobId",
+      "company jobPostedOn title category country city location"
+    );
     res.status(200).json({
       success: true,
       applications,

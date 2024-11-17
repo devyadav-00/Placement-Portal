@@ -11,7 +11,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { isAuthorized, setIsAuthorized } = useContext(Context);
+  const { isAuthorized, setIsAuthorized, setUser } = useContext(Context);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,10 +26,9 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      console.log("response: ", resp);
 
       const data = resp.data;
-
+      setUser(data.user);
       toast.success(data.message);
       setEmail("");
       setPassword("");

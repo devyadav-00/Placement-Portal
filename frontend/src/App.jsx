@@ -31,7 +31,7 @@ const TPORegister = lazy(() => import("./components/TPO/Register"));
 axios.defaults.baseURL = "http://localhost:4000";
 
 const App = () => {
-  const { isAuthorized, setIsAuthorized, setUser } = useContext(Context);
+  const { isAuthorized, setIsAuthorized, setUser, user } = useContext(Context);
   
 
 
@@ -44,8 +44,16 @@ const App = () => {
             withCredentials: true,
           }
         );
-        setUser(response.data.user);
-        console.log('user', response);
+
+        const user = response.data.user;
+        setUser(user);
+        // console.log('user', response.data);
+        if(user === null){
+          const response = await axios.get("/api/v1/tpo/me", {
+            withCredentials: true,
+          });
+          setUser(response.data.user);
+        }
         
         setIsAuthorized(true);
       } catch (error) {
@@ -53,6 +61,8 @@ const App = () => {
       }
     };
     fetchUser();
+    console.log(user);
+    
   }, [isAuthorized]);
 
   return (

@@ -21,19 +21,24 @@ const MyApplications = () => {
             withCredentials: true,
           })
           .then((res) => {
-            // console.log("response TNP", res);
-
             setApplications(res.data.myJobs);
           });
-      } else {
+      } else if (user && user.role === "Student") {
         axios
           .get("http://localhost:4000/api/v1/application/jobseeker/getall", {
             withCredentials: true,
           })
           .then((res) => {
-            // console.log("response", res);
-
             setApplications(res.data.applications);
+          });
+      } else {
+        axios
+          .get("http://localhost:4000/api/v1/tpo/pending-tnps", {
+            withCredentials: true,
+          })
+          .then((res) => {
+            console.log("response", res);
+            setApplications(res.data.pendingTNPs);
           });
       }
     } catch (error) {
@@ -62,109 +67,162 @@ const MyApplications = () => {
     }
   };
 
+  const handlePendingTNP = (userId, action) => {
+    try {
+      axios
+        .post(
+          "http://localhost:4000/api/v1/tpo/tnp-request",
+          { userId, action },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => {
+          toast.success(res.data.message);
+          setApplications((prevApplication) =>
+            prevApplication.filter((application) => application._id !== userId)
+          );
+        });
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  }
+
   const openModal = (imageUrl) => {
     setResumeImageUrl(imageUrl);
     setModalOpen(true);
   };
 
-  const closeModal = () => {
-    setModalOpen(false);
-  };
-
-  // console.log("applications", applications);
 
   return (
     <section className="my_applications page">
-      {user && user.role === "Student" ? (
-        <div className="container">
-          <h1>My Applications</h1>
-          {applications.length <= 0 ? (
-            <>
-              {" "}
-              <h4>No Applications Found</h4>{" "}
-            </>
-          ) : (
-            applications.map((element) => {
-              return (
-                <JobSeekerCard
-                  element={element}
-                  key={element._id}
-                  deleteApplication={deleteApplication}
-                  openModal={openModal}
-                />
-              );
-            })
-          )}
-        </div>
-      ) : (
-        <div className="container">
-          <h1>Applications From Students</h1>
-          {applications.length <= 0 ? (
-            <>
-              <h4>No Applications Found</h4>
-            </>
-          ) : (
-            applications.map((element) => {
-              return (
-                <TNPCard
-                  element={element}
-                  key={element._id}
-                  // openModal={openModal}
-                />
-              );
-            })
-          )}
-        </div>
-      )}
-      {/* {modalOpen && (
-        <ResumeModal imageUrl={resumeImageUrl} onClose={closeModal} />
-      )} */}
+      {(() => {
+        if (user && user.role === "Student") {
+          return (
+            <div className="container">
+              <h1>My Applications</h1>
+              {applications.length <= 0 ? (
+                <>
+                  <h4>No Applications Found</h4>
+                </>
+              ) : (
+                applications.map((element) => {
+                  return (
+                    <JobSeekerCard
+                      element={element}
+                      key={element._id}
+                      deleteApplication={deleteApplication}
+                      openModal={openModal}
+                    />
+                  );
+                })
+              )}
+            </div>
+          );
+        } else if (user && user.role === "TNP") {
+          return (
+            <div className="container">
+              <h1>Applications From Students</h1>
+              {applications.length <= 0 ? (
+                <>
+                  <h4>No Applications Found</h4>
+                </>
+              ) : (
+                applications.map((element) => {
+                  return (
+                    <TNPCard
+                      element={element}
+                      key={element._id}
+                    />
+                  );
+                })
+              )}
+            </div>
+          );
+        } else {
+          console.log("applications", applications);
+          return (
+            <div className="container">
+              <h1>TNP Applicants</h1>
+              {applications.length <= 0 ? (
+                <>
+                  <h4>All TNP validated</h4>
+                </>
+              ) : (
+                
+                applications.map((element) => {
+                  console.log("element", element);
+                  return (
+                    <TPOCard
+                      element={element}
+                      key={element._id}
+                      handlePendingTNP={handlePendingTNP}
+                    />
+                  );
+                })
+              )}
+            </div>
+          );
+        }
+      })()}
     </section>
   );
 };
-
 export default MyApplications;
 
 const JobSeekerCard = ({ element, deleteApplication, openModal }) => {
+  console.log(element);
+  const formattedDate = new Date(element.jobId.jobPostedOn).toLocaleDateString(
+    "en-US",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  );
+  
   return (
     <>
       <div className="job_seeker_card">
         <div className="details">
+          {" "}
           <p>
-            <span>Job Title:</span> {element?.jobId?.title}
+            Company: <span>{element?.jobId?.company}</span>
           </p>
           <p>
-            <span>Category:</span> {element?.jobId?.category}
+            Job Title: <span>{element?.jobId?.title}</span>
           </p>
           <p>
-            <span>Country:</span> {element?.jobId?.country}
+            Category:<span> {element?.jobId?.category}</span>
           </p>
           <p>
-            <span>City:</span> {element?.jobId?.city}
+            Country: <span>{element?.jobId?.country}</span>
           </p>
           <p>
-            <span>Company:</span> {element?.jobId?.company}
+            City: <span>{element?.jobId?.city}</span>
           </p>
           <p>
-            <span>Job Posted On:</span> {element?.jobId?.jobPostedOn}
+            Job Posted On: <span>{formattedDate}</span>
           </p>
-        </div>
+        </div>{" "}
         <hr />
         <div className="detail">
           <p>
-            <span>Name:</span> {element.name}
+            Name:<span>{element.name}</span>
           </p>
           <p>
-            <span>Email:</span> {element.email}
+            Email:<span>{element.email}</span>
           </p>
           <p>
-            <span>Phone:</span> {element.phone}
+            Phone:<span>{element.phone}</span>
           </p>
           <p>
-            <span>Address:</span> {element.address}
+            Address:<span>{element.address}</span>
           </p>
           <p>
-            <span>CoverLetter:</span> {element.coverLetter}
+            CoverLetter:<span> {element.coverLetter}</span>
           </p>
         </div>
         <div className="resume">
@@ -197,7 +255,6 @@ const TNPCard = ({ element, openModal }) => {
       minute: "2-digit", // e.g., 29
     }
   );
-  // console.log('formattedDate',formattedDate);
 
   return (
     <>
@@ -230,6 +287,62 @@ const TNPCard = ({ element, openModal }) => {
             </p>
           </div>
         </Link>
+      </div>
+    </>
+  );
+};
+
+const TPOCard = ({ element, handlePendingTNP }) => {
+  console.log("element", element);
+  const formattedDate = new Date(element.createdAt).toLocaleDateString(
+    "en-US",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  );
+
+  return (
+    <>
+      <div className="job_seeker_card">
+        <div className="detail">
+          <p>
+            Name: <span>{element.name}</span>
+          </p>
+          <p>
+            Email: <span>{element.email}</span>
+          </p>
+          <p>
+            Phone: <span>{element.phone}</span>
+          </p>
+          <p>
+            Address: <span>{element.address}</span>
+          </p>
+          <p>
+            Role: <span>{element.role}</span>
+          </p>
+
+          <p>
+            Created At: <span>{formattedDate}</span>
+          </p>
+        </div>{" "}
+        <p className="status">
+          Status:
+          <select
+            value={element.status}
+            onChange={(e) => handlePendingTNP(element._id, e.target.value)}
+            className="status_select"
+          >
+            <option value="Pending" disabled>
+              Pending
+            </option>
+            <option value="Approved">Approved</option>
+            <option value="Declined">Declined</option>
+          </select>
+        </p>
       </div>
     </>
   );

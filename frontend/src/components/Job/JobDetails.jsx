@@ -32,6 +32,15 @@ const JobDetails = () => {
     navigateTo("/login");
   }
 
+  const postedDate = new Date(job.jobPostedOn).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    
+  });
+
   return (
     <section className="jobDetail page">
       <div className="container">
@@ -57,7 +66,7 @@ const JobDetails = () => {
             Description: <span>{job.description}</span>
           </p>
           <p>
-            Job Posted On: <span>{job.jobPostedOn}</span>
+            Job Posted On: <span>{postedDate}</span>
           </p>
           <p>
             Salary:{" "}

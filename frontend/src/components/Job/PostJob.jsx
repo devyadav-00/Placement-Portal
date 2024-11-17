@@ -92,7 +92,7 @@ const PostJob = () => {
     navigateTo("/");
   }
 
-  return (
+  if(user.status === "Approved") { return (
     <>
       <div className="job_post page">
         <div className="container">
@@ -201,7 +201,39 @@ const PostJob = () => {
         </div>
       </div>
     </>
-  );
+  )} else if (user.status === "Pending")
+    return (
+      <>
+        <div className="job_post page">
+          <div className="container">
+            <h3>POST NEW JOB</h3>
+            <div className="pending">
+              <h4>Your account is pending for approval!</h4>
+              <p>
+                You will be able to post jobs once your account is approved by
+                the Admin.
+              </p>
+            </div>
+          </div>
+        </div>
+      </>
+    )
+    else return (
+      <>
+        <div className="job_post page">
+          <div className="container">
+            <h3>POST NEW JOB</h3>
+            <div className="pending">
+              <h4>Your account has been declined!</h4>
+              <p>
+                You will not be able to post jobs as your account has been
+                declined by the TPO.
+              </p>
+            </div>
+          </div>
+        </div>
+      </>
+    )
 };
 
 export default PostJob;
