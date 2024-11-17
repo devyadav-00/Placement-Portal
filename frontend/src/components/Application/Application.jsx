@@ -9,7 +9,7 @@ const Application = () => {
 
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
-  const [enrolment, setEnrolment] = useState(user?.enrolment);
+  const [enrollment, setenrollment] = useState(user?.enrollment);
   const [coverLetter, setCoverLetter] = useState("");
   const [phone, setPhone] = useState(user.phone);
   const [address, setAddress] = useState(user.address);
@@ -31,7 +31,7 @@ const Application = () => {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("email", email);
-    formData.append("enrolment", enrolment);
+    formData.append("enrollment", enrollment);
     formData.append("phone", phone);
     formData.append("address", address);
     formData.append("coverLetter", coverLetter);
@@ -49,7 +49,7 @@ const Application = () => {
           },
         }
       );
-      
+
       setCoverLetter("");
       setResume("");
       toast.success(data.message);
@@ -61,7 +61,7 @@ const Application = () => {
     }
   };
 
-  if (!isAuthorized || (user && user.role === "Employer")) {
+  if (!isAuthorized || (user && user.role === "TNP")) {
     navigateTo("/");
   }
 
@@ -83,10 +83,10 @@ const Application = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
-            type="enrolment"
-            placeholder="Your Enrolment Number"
-            value={enrolment}
-            onChange={(e) => setEnrolment(e.target.value)}
+            type="enrollment"
+            placeholder="Your enrollment Number"
+            value={enrollment}
+            onChange={(e) => setenrollment(e.target.value)}
           />
           <input
             type="number"

@@ -2,6 +2,7 @@ import { catchAsyncErrors } from "../middlewares/catchAsyncError.js";
 import { TPO } from  "../models/tpoModel.js";
 import ErrorHandler from "../middlewares/error.js";
 import { sendToken } from "../utils/jwtToken.js";
+import { User } from "../models/userSchema.js";
 
 export const registerTPO = catchAsyncErrors(async (req, res, next) => {
     const { firstname, lastname, email, phone, password } = req.body;
@@ -60,3 +61,44 @@ export const logoutTPO = catchAsyncErrors(async (req, res, next) => {
       message: "Logged Out Successfully.",
     });
 });
+
+
+export const handleTNPRequest = catchAsyncErrors(async (req, res, next) => {
+    const { userId, action } = req.body;
+  
+    
+    if (!userId || !["Approved", "Declined"].includes(action)) {
+      return next(new ErrorHandler("Invalid input!"));
+    }
+  
+    const user = await User.findById(userId);
+    if (!user || user.role !== "TNP") {
+      return next(new ErrorHandler("TNP user not found!"));
+    }
+  
+    user.status = action;
+    await user.save();
+  
+    if (action === "Approved") {
+      res.status(200).json({ success: true, message: "TNP registration approved!" });
+    } else {
+      res.status(200).json({ success: true, message: "TNP registration declined. Functionality hidden." });
+    }
+  });
+  
+
+  export const getPendingTNPs = catchAsyncErrors(async (req, res, next) => {
+    
+    const pendingTNPs = await User.find({ role: "TNP", status: "Pending" });
+  
+    if (!pendingTNPs || pendingTNPs.length === 0) {
+      return next(new ErrorHandler("No pending TNPs found!", 404));
+    }
+  
+   
+    res.status(200).json({
+      success: true,
+      count: pendingTNPs.length,
+      pendingTNPs,
+    });
+  });

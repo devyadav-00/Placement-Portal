@@ -27,8 +27,8 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      console.log('response: ', resp);
-      
+      console.log("response: ", resp);
+
       const data = resp.data;
 
       toast.success(data.message);
@@ -58,9 +58,11 @@ const Login = () => {
               <label>Login As</label>
               <div>
                 <select value={role} onChange={(e) => setRole(e.target.value)}>
-                  <option value="" disabled>Select Role</option>
-                  <option value="Employer">TNPs</option>
-                  <option value="Job Seeker">Students</option>
+                  <option value="" disabled>
+                    Select Role
+                  </option>
+                  <option value="TNP">TNPs</option>
+                  <option value="Student">Students</option>
                 </select>
                 <FaRegUser />
               </div>
@@ -97,7 +99,6 @@ const Login = () => {
             <Link to={"/register"}>Register Now</Link>
           </form>
         </div>
-       
       </section>
     </>
   );

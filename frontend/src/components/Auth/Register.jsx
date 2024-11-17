@@ -13,7 +13,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [enrolment, setEnrolment] = useState("");
+  const [enrollment, setenrollment] = useState("");
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
@@ -27,7 +27,7 @@ const Register = () => {
     try {
       const { data } = await axios.post(
         "http://localhost:4000/api/v1/user/register",
-        { name, phone, email, role, password, enrolment, address },
+        { name, phone, email, role, password, enrollment, address },
         {
           headers: {
             "Content-Type": "application/json",
@@ -38,7 +38,7 @@ const Register = () => {
       toast.success(data.message);
       setName("");
       setEmail("");
-      setEnrolment("");
+      setenrollment("");
       setAddress("");
       setPassword("");
       setPhone("");
@@ -71,8 +71,8 @@ const Register = () => {
                   <option value="" disabled>
                     Select Role
                   </option>
-                  <option value="Employer">TNPs</option>
-                  <option value="Job Seeker">Students</option>
+                  <option value="TNP">TNPs</option>
+                  <option value="Student">Students</option>
                 </select>
                 <FaRegUser />
               </div>
@@ -106,33 +106,33 @@ const Register = () => {
             <div className="inputTag">
               <label>Phone Number</label>
               <div>
-              <input
-                 type="tel"
-                 placeholder="98XXXXXXXX"
-                 title="Please enter a valid phone number"
-                 pattern="[6789][0-9]{9}"
-                 value={phone}
-                 onChange={(e) => {
-                 const value = e.target.value;
-                 if (/^[0-9]{0,10}$/.test(value)) {
-                  setPhone(value);
-                  }
+                <input
+                  type="tel"
+                  placeholder="98XXXXXXXX"
+                  title="Please enter a valid phone number"
+                  pattern="[6789][0-9]{9}"
+                  value={phone}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (/^[0-9]{0,10}$/.test(value)) {
+                      setPhone(value);
+                    }
                   }}
                   required
-              />
+                />
 
                 <FaPhone />
               </div>
             </div>
-            {role === "Job Seeker" && (
+            {role === "Student" && (
               <div className="inputTag">
-                <label>Enrolment Number</label>
+                <label>enrollment Number</label>
                 <div>
                   <input
                     type="text"
-                    placeholder="Enter enrolment number"
-                    value={enrolment}
-                    onChange={(e) => setEnrolment(e.target.value)}
+                    placeholder="Enter enrollment number"
+                    value={enrollment}
+                    onChange={(e) => setenrollment(e.target.value)}
                     required
                   />
                   <FaPencilAlt />
@@ -165,15 +165,12 @@ const Register = () => {
                 <RiLock2Fill />
               </div>
             </div>
-            <button type="submit" onClick={handleRegister} 
-              disabled={loader}
-            >
+            <button type="submit" onClick={handleRegister} disabled={loader}>
               {loader ? "Loading..." : "Register"}
             </button>
             <Link to={"/login"}>Login Now</Link>
           </form>
         </div>
-        
       </section>{" "}
     </>
   );

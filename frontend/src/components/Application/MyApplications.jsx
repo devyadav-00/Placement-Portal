@@ -15,13 +15,13 @@ const MyApplications = () => {
 
   useEffect(() => {
     try {
-      if (user && user.role === "Employer") {
+      if (user && user.role === "TNP") {
         axios
           .get("http://localhost:4000/api/v1/job/getmyjobs", {
             withCredentials: true,
           })
           .then((res) => {
-            // console.log("response employer", res);
+            // console.log("response TNP", res);
 
             setApplications(res.data.myJobs);
           });
@@ -75,7 +75,7 @@ const MyApplications = () => {
 
   return (
     <section className="my_applications page">
-      {user && user.role === "Job Seeker" ? (
+      {user && user.role === "Student" ? (
         <div className="container">
           <h1>My Applications</h1>
           {applications.length <= 0 ? (
@@ -106,7 +106,7 @@ const MyApplications = () => {
           ) : (
             applications.map((element) => {
               return (
-                <EmployerCard
+                <TNPCard
                   element={element}
                   key={element._id}
                   // openModal={openModal}
@@ -184,17 +184,20 @@ const JobSeekerCard = ({ element, deleteApplication, openModal }) => {
   );
 };
 
-const EmployerCard = ({ element, openModal }) => {
+const TNPCard = ({ element, openModal }) => {
   console.log("element", element);
-  const formattedDate = new Date(element.jobPostedOn).toLocaleDateString("en-US", {
-    // weekday: "long", // e.g., Saturday
-    year: "numeric", // e.g., 2024
-    month: "long", // e.g., November
-    day: "numeric", // e.g., 16
-    hour: "2-digit", // e.g., 10 AM
-    minute: "2-digit", // e.g., 29
-  });
-// console.log('formattedDate',formattedDate);
+  const formattedDate = new Date(element.jobPostedOn).toLocaleDateString(
+    "en-US",
+    {
+      // weekday: "long", // e.g., Saturday
+      year: "numeric", // e.g., 2024
+      month: "long", // e.g., November
+      day: "numeric", // e.g., 16
+      hour: "2-digit", // e.g., 10 AM
+      minute: "2-digit", // e.g., 29
+    }
+  );
+  // console.log('formattedDate',formattedDate);
 
   return (
     <>

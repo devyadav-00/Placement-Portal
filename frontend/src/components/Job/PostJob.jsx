@@ -88,7 +88,7 @@ const PostJob = () => {
       });
   };
 
-  if (!isAuthorized || (user && user.role !== "Employer")) {
+  if (!isAuthorized || (user && user.role !== "TNP")) {
     navigateTo("/");
   }
 
@@ -125,9 +125,7 @@ const PostJob = () => {
                 <option value="Frontend Development">
                   Frontend Development
                 </option>
-                <option value="Web Development">
-                  Web Development
-                </option>
+                <option value="Web Development">Web Development</option>
                 <option value="Account & Finance">Account & Finance</option>
                 <option value="System Engineer">System Engineer</option>
                 <option value="Graduate Trainee">Graduate Trainee</option>
