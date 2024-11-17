@@ -8,27 +8,27 @@ const HowItWorks = () => {
     <>
       <div className="howitworks">
         <div className="container">
-          <h3>How It Works</h3>
+          <h3>Path to Success: Getting Your Dream Job</h3>
           <div className="banner">
             <div className="card">
               <FaUserPlus />
-              <p>Create Account</p>
+              <p>Skill Development</p>
               <p>
-                Create an account to get started.
+                Continuously learn and upgrade your skills through education, certifications, and practical experience.
               </p>
             </div>
             <div className="card">
               <MdFindInPage />
-              <p>Find a Job</p>
+              <p>Dedication & Hard Work</p>
               <p>
-                Find a job that suits your interests and skills.
+                Put in consistent effort, maintain a strong work ethic, and stay focused on your career goals.
               </p>
             </div>
             <div className="card">
               <IoMdSend />
-              <p>Apply For Job</p>
+              <p>Professional Growth</p>
               <p>
-                Apply for the job and get hired.
+                Network actively, seek mentorship, gain relevant experience, and maintain a positive attitude.
               </p>
             </div>
           </div>

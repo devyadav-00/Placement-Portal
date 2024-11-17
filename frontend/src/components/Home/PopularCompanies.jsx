@@ -8,21 +8,21 @@ const PopularCompanies = () => {
       id: 1,
       title: "Microsoft",
       location: "Hyderabad, India",
-      openPositions: 10,
+      openPositions: "Students Placed: 250+",
       icon: <FaMicrosoft />,
     },
     {
       id: 2,
       title: "Oracle",
       location: "Bengaluru, India",
-      openPositions: 5,
+      openPositions: "Students Placed: 180+",
       icon: <SiOracle />,
     },
     {
       id: 3,
       title: "Google",
       location: "Banglore, India",
-      openPositions: 20,
+      openPositions: "Students Placed: 300+",
       icon: <FaGoogle />,
     },
   ];
@@ -31,21 +31,21 @@ const PopularCompanies = () => {
       id: 1,
       title: "NVidia",
       location: "Hyderabad, India",
-      openPositions: 10,
+      openPositions: "Students Placed: 120+",
       icon: <SiNvidia />,
     },
     {
       id: 2,
       title: "PayPal",
       location: "Bengaluru, India",
-      openPositions: 5,
+      openPositions: "Students Placed: 90+",
       icon: <FaPaypal />,
     },
     {
       id: 3,
       title: "Cisco",
       location: "Banglore, India",
-      openPositions: 20,
+      openPositions: "Students Placed: 150+",
       icon: <SiCisco />,
     },
   ];
@@ -64,7 +64,7 @@ const PopularCompanies = () => {
                     <p>{element.location}</p>
                   </div>
                 </div>
-                <button>Open Positions {element.openPositions}</button>
+                <button>{element.openPositions}</button>
               </div>
             );
           })}
@@ -80,7 +80,7 @@ const PopularCompanies = () => {
                     <p>{element.location}</p>
                   </div>
                 </div>
-                <button>Open Positions {element.openPositions}</button>
+                <button>{element.openPositions}</button>
               </div>
             );
           })}
