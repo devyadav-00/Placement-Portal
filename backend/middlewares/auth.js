@@ -11,7 +11,8 @@ export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
   }
   const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-  req.user = await User.findById(decoded.id);
+  req.user = await User.findById(decoded.id).select('-password');
+  // req.user = await User.findById(payload._id).select('-password');
 
   next();
 });
@@ -22,7 +23,7 @@ export const isAuthenticatedTPO = catchAsyncErrors(async (req, res, next) => {
   }
   const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-  req.user = await TPO.findById(decoded.id);
+  req.user = await TPO.findById(decoded.id).select('-password');
   req.user["role"] = "TPO";
 
   console.log("req.user", req.user);
