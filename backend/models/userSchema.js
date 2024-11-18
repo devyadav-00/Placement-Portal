@@ -32,6 +32,9 @@ const userSchema = new mongoose.Schema({
     minLength: [8, "Password must contain at least 8 characters!"],
     maxLength: [32, "Password cannot exceed 32 characters!"],
     // select: false,
+
+//
+
   },
   role: {
     type: String,
