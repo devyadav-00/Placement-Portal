@@ -12,8 +12,7 @@ const Footer = () => {
         <div className="footer-section">
           <h3>About Us</h3>
           <p>
-            We are dedicated to providing quality education and learning
-            resources.
+          Our mission is to streamline the placement process, providing a seamless and efficient platform for students, recruiters, and college administrators to achieve their goals effortlessly.
           </p>
         </div>
         <div className="footer-section">
