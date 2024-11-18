@@ -7,7 +7,7 @@ const router = express.Router();
 router.post("/register", register);
 router.post("/login", login);
 router.post("/verify", verifyUser);
-router.post("generate-code", generateVerificationCode);
+router.post("/generate-code", generateVerificationCode);
 router.get("/logout", isAuthenticated, logout);
 router.get("/getuser", isAuthenticated, getUser);
 

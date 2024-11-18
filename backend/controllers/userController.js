@@ -29,6 +29,7 @@ export const register = catchAsyncErrors(async (req, res, next) => {
     address,
     verificationCode,
   });
+  
   sendVerificationCode(email, verificationCode);
 
   res.status(200).json({
@@ -108,7 +109,7 @@ export const verifyUser = catchAsyncErrors(async (req, res, next) => {
   user.verificationCode = null;
   await user.save();
 
-  sendToken(user, 201, res, "User Registered!");
+  sendToken(user, 201, res, "User Registered Successfully!");
 });
 
 // generate verification code and send it to the user's email while login

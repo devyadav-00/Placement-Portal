@@ -146,7 +146,7 @@ export const verifyUserTPO = catchAsyncErrors(async (req, res, next) => {
   user.verificationCode = null;
   await user.save();
 
-  sendToken(user, 201, res, "User Registered!");
+  sendToken(user, 201, res, "User Registered Successfully!");
 });
 
 
