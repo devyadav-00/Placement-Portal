@@ -3,10 +3,11 @@ import { TPO } from  "../models/tpoModel.js";
 import ErrorHandler from "../middlewares/error.js";
 import { sendToken } from "../utils/jwtToken.js";
 import { User } from "../models/userSchema.js";
+import { sendVerificationCode } from "../utils/email.js";
 
 export const registerTPO = catchAsyncErrors(async (req, res, next) => {
     const { firstname, lastname, email, phone, password } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     
 
   if (!firstname || !lastname || !email || !phone || !password ) {
@@ -17,20 +18,28 @@ export const registerTPO = catchAsyncErrors(async (req, res, next) => {
   if (isEmail) {
     return next(new ErrorHandler("Email already registered!"));
   }
-
+  const verificationCode = Math.floor(
+    100000 + Math.random() * 900000
+  ).toString();
   const tpo = await TPO.create({
     firstname,
     lastname,
     email,
     phone,
     password,
+    verificationCode,
   });
+  sendVerificationCode(email, verificationCode);
 
-  sendToken(tpo, 201, res, "TPO Registered!");
+  res.status(200).json({
+    success: true,
+    message: "Verification code sent to your email. Please check your inbox.",
+    tpo,
+  });
 });
 
 export const loginTPO = catchAsyncErrors(async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, verificationCode } = req.body;
 
   if (!email || !password) {
     return next(new ErrorHandler("Please provide email and password."));
@@ -38,13 +47,20 @@ export const loginTPO = catchAsyncErrors(async (req, res, next) => {
 
   const tpo = await TPO.findOne({ email }).select("+password");
   if (!tpo) {
-    return next(new ErrorHandler("Invalid Email Or Password.", 400));
+    return next(new ErrorHandler("Invalid Email.", 400));
+  }
+  if (tpo.verificationCode !== verificationCode) {
+    return next(new ErrorHandler("Invalid verification code.", 400));
   }
 
   const isPasswordMatched = await tpo.comparePassword(password);
   if (!isPasswordMatched) {
-    return next(new ErrorHandler("Invalid Email Or Password.", 400));
+    return next(new ErrorHandler("Invalid Password.", 400));
   }
+
+  tpo.verificationCode = null;
+  tpo.isVerified = true;
+  await tpo.save();
 
   sendToken(tpo, 200, res, "TPO Logged In!");
 });
@@ -112,3 +128,46 @@ export const handleTNPRequest = catchAsyncErrors(async (req, res, next) => {
       user,
     });
   });
+
+
+  // verification code controller
+export const verifyUserTPO = catchAsyncErrors(async (req, res, next) => {
+  const { verificationCode, email } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    return next(new ErrorHandler("User not found.", 404));
+  }
+  if (user.verificationCode !== verificationCode) {
+    return next(new ErrorHandler("Invalid verification code.", 400));
+  }
+
+  user.isVerified = true;
+  user.verificationCode = null;
+  await user.save();
+
+  sendToken(user, 201, res, "User Registered!");
+});
+
+
+// generate verification code and send it to the user's email while login
+export const generateVerificationCodeTPO = catchAsyncErrors(
+  async (req, res, next) => {
+    const { email } = req.body;
+
+    const verificationCode = Math.floor(
+      100000 + Math.random() * 900000
+    ).toString();
+    const user = await TPO.findOne({ email });
+    if (!user) {
+      return next(new ErrorHandler("User not found.", 404));
+    }
+    user.verificationCode = verificationCode;
+    await user.save();
+    sendVerificationCode(email, verificationCode);
+    res.status(200).json({
+      success: true,
+      message: "Verification code sent to your email. Please check your inbox.",
+    });
+  }
+);
