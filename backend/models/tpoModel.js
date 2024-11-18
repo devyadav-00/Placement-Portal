@@ -14,6 +14,14 @@ const tpoSchema = new mongoose.Schema(
       trim: true,
       validate: [validator.isEmail, "Please provide a valid Email!"],
     },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    verificationCode: {
+      type: String,
+      default: null,
+    },
     phone: { type: String, required: true, unique: true, trim: true },
     password: { type: String, required: true, select: false },
     // notifications: [
