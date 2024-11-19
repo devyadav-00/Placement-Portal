@@ -96,6 +96,11 @@ export const getUser = catchAsyncErrors((req, res, next) => {
 // verification code controller
 export const verifyUser = catchAsyncErrors(async (req, res, next) => {
   const { verificationCode, email } = req.body;
+  if (!verificationCode || !email) {
+    return next(new ErrorHandler("Please provide verification code."));
+  }
+  // console.log(verificationCode, email);
+  
 
   const user = await User.findOne({ email });
   if (!user) {
