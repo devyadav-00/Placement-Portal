@@ -67,7 +67,20 @@ export const login = catchAsyncErrors(async (req, res, next) => {
   if (!isPasswordMatched) {
     return next(new ErrorHandler("Invalid Password.", 400));
   }
+  if (role === "Student" && user.isVerified === false) {
+    const verificationCode = Math.floor(
+      100000 + Math.random() * 900000
+    ).toString();
+    sendVerificationCode(email, verificationCode);
+    user.verificationCode = verificationCode;
+    await user.save();
 
+    res.status(200).json({
+    success: true,
+    message: "Verification code sent to your email. Please check your inbox.",
+    user,
+  });
+  }
 
   sendToken(user, 201, res, "User Logged In!");
 });
@@ -100,7 +113,6 @@ export const verifyUser = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Please provide verification code."));
   }
   // console.log(verificationCode, email);
-  
 
   const user = await User.findOne({ email });
   if (!user) {
