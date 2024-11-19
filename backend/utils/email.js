@@ -4,7 +4,7 @@ import { Verification_Email_Template } from "./verificationEmailTemplate.js";
 
 export const sendVerificationCode = async (email, verificationCode) => {
     console.log("Sending verification code to:", email);
-    console.log("Verification code:", verificationCode);
+    // console.log("Verification code:", verificationCode);
   try {
     const response = await transporter.sendMail({
       from: `"NITA-PLACEMENT-CELL 👻" <${process.env.NODEMAIL_EMAIL}>`, // sender address
