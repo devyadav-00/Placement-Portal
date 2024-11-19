@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLock2Fill } from "react-icons/ri";
-import { Link, Navigate, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import nitaLogo from "../../../public/nita.png";
 import toast from "react-hot-toast";
 import axios from "axios";
@@ -13,10 +13,11 @@ const ForgotPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showVerification, setShowVerification] = useState(false);
   const [timer, setTimer] = useState(0);
+  const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
   const role = searchParams.get("role");
-  console.log("role", role);
+  // console.log("role", role);
 
   useEffect(() => {
     let interval;
@@ -143,11 +144,11 @@ const ForgotPassword = () => {
       setPassword("");
       setConfirmPassword("");
       setVerificationCode("");
-      setShowVerification(false);
       if (role === "tpo") {
-        return <Navigate to="/tpo/login" />;
+        navigate("/tpo/login");
+      } else {
+        navigate("/login");
       }
-        return <Navigate to="/login" />;
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred");
     }

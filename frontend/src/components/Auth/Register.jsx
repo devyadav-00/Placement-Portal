@@ -13,7 +13,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [enrollment, setenrollment] = useState("");
+  const [enrollment, setEnrollment] = useState("");
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -84,7 +84,7 @@ const Register = () => {
       setPassword("");
       setConfirmPassword("");
       setRole("");
-      setenrollment("");
+      setEnrollment("");
       setIsAuthorized(true);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -224,13 +224,13 @@ const Register = () => {
               </div>
               {role === "Student" && (
                 <div className="inputTag">
-                  <label>enrollment Number</label>
+                  <label>Enrollment Number</label>
                   <div>
                     <input
                       type="text"
                       placeholder="Enter Enrollment number"
                       value={enrollment}
-                      onChange={(e) => setenrollment(e.target.value)}
+                      onChange={(e) => setEnrollment(e.target.value)}
                       required
                     />
                     <FaPencilAlt />
