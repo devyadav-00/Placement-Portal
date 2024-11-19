@@ -146,7 +146,7 @@ const Login = () => {
               </div>
             </div>
             <button type="submit">Login</button>
-            <Link className="forgot" to={"/tpo/forgot-password"}>
+            <Link className="forgot" to={"/forgot-password?role=tpo"}>
               Forgot Password?
             </Link>
             <p>

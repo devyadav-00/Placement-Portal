@@ -8,6 +8,7 @@ import axios from "axios";
 import LoaderPage from "./components/Loader/LoaderPage.jsx";
 import Navbar from "./components/Layout/Navbar";
 import Footer from "./components/Layout/Footer";
+const ForgotPassword = lazy(() => import("./components/Forgot/ForgotPassword.jsx"));
 
 const Login = lazy(() => import("./components/Auth/Login"));
 const Register = lazy(() => import("./components/Auth/Register"));
@@ -83,8 +84,7 @@ const App = () => {
             <Route path="/job/me" element={<MyJobs />} />
             <Route path="/tpo/login" element={<TPOLogin />} />
             <Route path="/tpo/register" element={<TPORegister />} />
-            <Route path="/tpo/home" element={<MyJobs />} />
-            <Route path="/tpo/tnp/:id" element={<MyJobs />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Toaster />

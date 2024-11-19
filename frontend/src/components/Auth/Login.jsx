@@ -232,7 +232,7 @@ const Login = () => {
               </div>
             </div>
             <button type="submit">Login</button>
-            <Link className="forgot" to={"/forgot-password"}>
+            <Link className="forgot" to={"/forgot-password?role=user"}>
               Forgot Password?
             </Link>
             <p>
