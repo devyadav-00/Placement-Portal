@@ -148,12 +148,16 @@ const Register = () => {
                 <button type="submit" onClick={handleVerify}>
                   Verify Code
                 </button>
-                <button type="button" onClick={handleResendCode} disabled={timer > 0}>
+                <button
+                  type="button"
+                  onClick={handleResendCode}
+                  disabled={timer > 0}
+                >
                   {timer > 0 ? `Resend Code (${timer}s)` : "Resend Code"}
                 </button>
               </form>
-            </div>         
-            ) : (
+            </div>
+          ) : (
             <form>
               <div className="inputTag">
                 <label>Register As</label>
@@ -275,7 +279,9 @@ const Register = () => {
               <button type="submit" onClick={handleRegister} disabled={loader}>
                 {loader ? "Loading..." : "Register"}
               </button>
-              <Link to={"/login"}>Login Now</Link>
+              <p>
+                Already have an account? <Link to={"/login"}>Login</Link>
+              </p>
             </form>
           )}
         </div>

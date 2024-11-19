@@ -174,13 +174,13 @@ const PostJob = () => {
                   <div className="ranged_salary">
                     <input
                       type="number"
-                      placeholder="Salary From"
+                      placeholder="Fixed Salary"
                       value={salaryFrom}
                       onChange={(e) => setSalaryFrom(e.target.value)}
                     />
                     <input
                       type="number"
-                      placeholder="Salary To"
+                      placeholder="CTC Salary"
                       value={salaryTo}
                       onChange={(e) => setSalaryTo(e.target.value)}
                     />

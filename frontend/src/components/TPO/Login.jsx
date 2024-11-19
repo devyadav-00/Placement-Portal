@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLock2Fill } from "react-icons/ri";
 import { Link, Navigate } from "react-router-dom";
@@ -6,20 +6,34 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Context } from "../../main";
 import nitaLogo from "../../../public/nita.png";
-import { PiPassword } from "react-icons/pi";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
   const [showVerification, setShowVerification] = useState(false);
+  const [timer, setTimer] = useState(0);
 
   const { isAuthorized, setIsAuthorized, setUser } = useContext(Context);
+
+  useEffect(() => {
+    let interval;
+    if (timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [timer]);
 
   const handleSendVerification = async () => {
     try {
       if (!email) {
         toast.error("Please enter Email first!");
+        return;
+      }
+      if (timer > 0) {
+        toast.error(`Please wait ${timer} seconds before requesting new code`);
         return;
       }
 
@@ -34,6 +48,7 @@ const Login = () => {
       );
       toast.success(resp.data.message);
       setShowVerification(true);
+      setTimer(60); // Set 60 seconds timer
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred");
     }
@@ -111,7 +126,9 @@ const Login = () => {
                   required
                   onChange={(e) => setVerificationCode(e.target.value)}
                 />
-                <PiPassword />
+                <button type="button" onClick={handleSendVerification}>
+                  {timer > 0 ? `Wait ${timer}s` : showVerification ? "Resend Code" : "Send Code"}
+                </button>
               </div>
             </div>
 
@@ -128,11 +145,13 @@ const Login = () => {
                 <RiLock2Fill />
               </div>
             </div>
-            <button type="button" onClick={handleSendVerification}>
-              {showVerification ? "Resend Code" : "Send Verification Code"}
-            </button>
             <button type="submit">Login</button>
-            <Link to={"/tpo/register"}>Register</Link>
+            <Link className="forgot" to={"/tpo/forgot-password"}>
+              Forgot Password?
+            </Link>
+            <p>
+              Don't have an account? <Link to={"/tpo/register"}>Sign Up</Link>
+            </p>
           </form>
         </div>
       </section>

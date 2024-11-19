@@ -152,7 +152,7 @@ export const generateVerificationCode = catchAsyncErrors(
 );
 
   export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
-    const { email, verificationCode, newPassword } = req.body;
+    const { email, verificationCode } = req.body;
     const user = await User.findOne({ email });
   if (!user) {
     return next(new ErrorHandler("User not found.", 404));

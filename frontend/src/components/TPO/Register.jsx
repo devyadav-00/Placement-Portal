@@ -142,7 +142,11 @@ const Register = () => {
                 <button type="submit" onClick={handleVerify}>
                   Verify Code
                 </button>
-                <button type="button" onClick={handleResendCode} disabled={timer > 0}>
+                <button
+                  type="button"
+                  onClick={handleResendCode}
+                  disabled={timer > 0}
+                >
                   {timer > 0 ? `Resend Code (${timer}s)` : "Resend Code"}
                 </button>
               </form>
@@ -237,7 +241,9 @@ const Register = () => {
               <button type="submit" onClick={handleRegister} disabled={loader}>
                 {loader ? "Loading..." : "Register"}
               </button>
-              <Link to={"/tpo/login"}>TPO Login </Link>
+              <p>
+                Already have an account? <Link to={"/tpo/login"}>Login</Link>
+              </p>
             </form>
           )}
         </div>

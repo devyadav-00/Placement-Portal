@@ -86,203 +86,212 @@ p {
     transform: rotate(360deg);
   }
 }
+.authPage {
+  display: flex;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+.authPage .container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background: #ffffff;
+}
+
+.authPage .container .header {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.authPage .container .header h3 {
+  font-size: 2rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.authPage .container .header img {
+  width: 140px;
+  height: 140px;
+  margin: 0 auto;
+}
+
+.authPage .container form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  gap: 24px;
+}
+
+.authPage .container form .inputTag {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.authPage .container form .inputTag div {
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.authPage .container form .inputTag div:focus-within {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+}
+
+.authPage .container form .inputTag div input,
+.authPage .container form .inputTag div select {
+  background: #ffffff;
+  padding: 14px;
+  border: none;
+  width: 100%;
+  font-size: 1rem;
+  color: #333;
+}
+
+.authPage .container form .inputTag div input:focus,
+.authPage .container form .inputTag div select:focus {
+  outline: none;
+}
+
+.authPage .container form .inputTag div svg {
+  width: 48px;
+  font-size: 1.2rem;
+  background: #4682b4;
+  height: 100%;
+  padding: 12px;
+  color: #fff;
+}
+.authPage .container form .inputTag div button {
+  width: 190px;
+  font-size: 1rem;
+  background: #4682b4;
+  margin-top: 0;
+  border-radius: 0;
+  height: 100%;
+  padding: 15px;
+  color: #fff;
+}
+
+.authPage .container form button {
+  padding: 14px;
+  text-align: center;
+  border: none;
+  margin-top: 20px;
+  font-weight: 600;
+  color: #fff;
+  background: #4682b4;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.authPage .container form button:hover {
+  background: #20b5da;
+}
+
+.authPage .container form a {
+ text-align: right;
+  font-size: 1.1rem;
+  border: none;
+  padding: 0;
+  margin: 0;
+  /* transform: translateY(-12px); */
+  color: #4682b4;
+  text-decoration: none;
+  color: #4682b4;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.authPage .container form a:hover {
+  color: #20b5da;
+}
+
+.authPage .banner {
+  flex: 1.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+  padding: 40px;
+}
+
+.authPage .banner img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (max-width: 1200px) {
   .authPage {
-    display: flex;
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    min-height: 100vh;
-    background: #ffffff;
-  }
-
-  .authPage .container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-    background: #ffffff;
-  }
-
-  .authPage .container .header {
-    display: flex;
-    gap: 20px;
-    flex-direction: column;
-    text-align: center;
-    margin-bottom: 40px;
-  }
-
-  .authPage .container .header h3 {
-    font-size: 2rem;
-    color: #333;
-    font-weight: 600;
-  }
-
-  .authPage .container .header img {
-    width: 140px;
-    height: 140px;
-    margin: 0 auto;
-  }
-
-  .authPage .container form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 400px;
-    gap: 24px;
-  }
-
-  .authPage .container form .inputTag {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .authPage .container form .inputTag div {
-    display: flex;
-    align-items: center;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid #e0e0e0;
-    transition: all 0.3s ease;
-  }
-
-  .authPage .container form .inputTag div:focus-within {
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
-  }
-
-  .authPage .container form .inputTag div input,
-  .authPage .container form .inputTag div select {
-    background: #ffffff;
-    padding: 14px;
-    border: none;
-    width: 100%;
-    font-size: 1rem;
-    color: #333;
-  }
-
-  .authPage .container form .inputTag div input:focus,
-  .authPage .container form .inputTag div select:focus {
-    outline: none;
-  }
-
-  .authPage .container form .inputTag div svg {
-    width: 48px;
-    font-size: 1.2rem;
-    background: #4682b4;
-    height: 100%;
-    padding: 12px;
-    color: #fff;
-  }
-
-  .authPage .container form button {
-    padding: 14px;
-    text-align: center;
-    border: none;
-    margin-top: 20px;
-    font-weight: 600;
-    color: #fff;
-    background: #4682b4;
-    font-size: 1.1rem;
-    border-radius: 12px;
-    transition: background-color 0.3s ease;
-    cursor: pointer;
-  }
-
-  .authPage .container form button:hover {
-    background: #20b5da;
-  }
-
-  .authPage .container form a {
-    padding: 14px;
-    text-align: center;
-    border: 2px solid #4682b4;
-    margin-top: 16px;
-    font-weight: 600;
-    color: #4682b4;
-    font-size: 1.1rem;
-    text-decoration: none;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-  }
-
-  .authPage .container form a:hover {
-    background: #20b5da;
-    color: #ffffff;
+    max-width: 100%;
   }
 
   .authPage .banner {
-    flex: 1.5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
-    padding: 40px;
+    flex: 1;
+  }
+}
+
+@media (max-width: 900px) {
+  .authPage {
+    flex-direction: column;
+  }
+
+  .authPage .container {
+    padding: 40px 20px;
+    order: 1;
+  }
+
+  .authPage .banner {
+    padding: 40px 20px;
+    order: 2;
   }
 
   .authPage .banner img {
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-    object-fit: contain;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .authPage .container .header h3 {
+    font-size: 1.8rem;
   }
 
-  @media (max-width: 1200px) {
-    .authPage {
-      max-width: 100%;
-    }
-  
-    .authPage .banner {
-      flex: 1;
-    }
+  .authPage .container .header img {
+    width: 120px;
+    height: 120px;
   }
 
-  @media (max-width: 900px) {
-    .authPage {
-      flex-direction: column;
-    }
-  
-    .authPage .container {
-      padding: 40px 20px;
-      order: 1;
-    }
-  
-    .authPage .banner {
-      padding: 40px 20px;
-      order: 2;
-    }
-  
-    .authPage .banner img {
-      max-width: 400px;
-    }
+  .authPage .container form {
+    gap: 16px;
   }
 
-  @media (max-width: 480px) {
-    .authPage .container .header h3 {
-      font-size: 1.8rem;
-    }
-  
-    .authPage .container .header img {
-      width: 120px;
-      height: 120px;
-    }
-  
-    .authPage .container form {
-      gap: 16px;
-    }
-  
-    .authPage .banner {
-      padding: 20px;
-    }
-  
-    .authPage .banner img {
-      max-width: 300px;
-    }
+  .authPage .banner {
+    padding: 20px;
   }
 
-  footer {
+  .authPage .banner img {
+    max-width: 300px;
+  }
+}
+
+footer {
   background-color: #1a1a1a;
   color: #fff;
   padding: 4rem 0;
@@ -635,7 +644,8 @@ p {
     width: 100%;
     padding: 30px 24px;
   }
-}.categories {
+}
+.categories {
   min-width: 1500px;
   max-width: 1500px;
   display: flex;
@@ -1026,211 +1036,211 @@ p {
   gap: 35px;
 }
 
-  .job_seeker_card {
-    display: flex;
-    align-items: center;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 25px;
-    margin: 15px 0;
-    background: rgba(255, 255, 255, 0.459);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+.job_seeker_card {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 25px;
+  margin: 15px 0;
+  background: rgba(255, 255, 255, 0.459);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.job_seeker_card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.job_seeker_card a {
+  text-decoration: none;
+  color: #18191c;
+  transition: color 0.2s ease;
+}
+
+.job_seeker_card a:hover {
+  color: #1e88e5;
+}
+
+.job_seeker_card .status {
+  display: flex;
+  font-weight: 600;
+  align-items: center;
+  gap: 15px;
+}
+
+.job_seeker_card .status_select {
+  width: 120px;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding: 12px 20px;
+  flex: 1;
+  border: none;
+  border-radius: 8px;
+  background: #1e88e5;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+}
+.job_seeker_card .status_select:hover {
+  background: #1565c0;
+  box-shadow: 0 4px 6px rgba(83, 82, 82, 0.15);
+}
+
+.job_seeker_card .status_select:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.3);
+}
+.job_seeker_card .status_select option:disabled {
+  outline: none;
+  color: #bbb9b9;
+}
+
+.job_seeker_card .detail {
+  flex: 3;
+  display: flex;
+  font-weight: 600;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 15px;
+}
+
+.job_seeker_card .details {
+  flex: 2;
+  padding: 0 15px;
+  font-weight: 600;
+}
+
+.job_seeker_card .detail span,
+.job_seeker_card .details span {
+  margin-left: 5px;
+  font-weight: 400;
+  color: #1871be;
+}
+
+.job_seeker_card .resume {
+  flex: 1;
+  position: relative;
+  height: 250px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.job_seeker_card .resume img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  object-fit: cover;
+  object-position: center top;
+  top: 0;
+  left: 0;
+  transition: transform 0.3s ease;
+}
+
+.job_seeker_card .resume img:hover {
+  transform: scale(1.05);
+}
+
+.job_seeker_card .btn_area {
+  flex: 1;
+  display: flex;
+  margin: 4px;
+  align-items: center;
+  justify-content: center;
+}
+
+.job_seeker_card .btn_area button {
+  background: #1e88e5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 35px;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(30, 136, 229, 0.2);
+}
+
+.job_seeker_card .btn_area button:hover {
+  background: #1565c0;
+  box-shadow: 0 4px 8px rgba(30, 136, 229, 0.3);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 1520px) {
+  .my_applications .container {
+    min-width: 100%;
+    padding: 0 20px;
   }
+}
 
-  .job_seeker_card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  }
-
-  .job_seeker_card a {
-    text-decoration: none;
-    color: #18191c;
-    transition: color 0.2s ease;
-  }
-
-  .job_seeker_card a:hover {
-    color: #1e88e5;
-  }
-
-  .job_seeker_card .status {
-    display: flex;
-    font-weight: 600;
-    align-items: center;
-    gap: 15px;
-  }
-
-  .job_seeker_card .status_select {
-    width: 120px;
-    margin-left: 8px;
-    margin-right: 8px;
-    padding: 12px 20px;
-    flex: 1;
-    border: none;
-    border-radius: 8px;
-    background: #1e88e5;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 12px;
-  }
-    .job_seeker_card .status_select:hover {    
-      background: #1565c0;
-      box-shadow: 0 4px 6px rgba(83, 82, 82, 0.15);
-    }
-
-    .job_seeker_card .status_select:focus {
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.3);
-    }
-    .job_seeker_card .status_select option:disabled {
-      outline: none;
-      color: #bbb9b9;
-    }
-
+@media (max-width: 1250px) {
   .job_seeker_card .detail {
-    flex: 3;
-    display: flex;
-    font-weight: 600;
-    flex-direction: column;
-    gap: 8px;
-    padding: 0 15px;
+    flex: 1;
   }
-
   .job_seeker_card .details {
-    flex: 2;
-    padding: 0 15px;
-    font-weight: 600;
+    flex: 1;
   }
-
-  .job_seeker_card .detail span,
-  .job_seeker_card .details span {
-    margin-left: 5px;
-    font-weight: 400;
-    color: #1871be;
-  }
-
   .job_seeker_card .resume {
-    flex: 1;
-    position: relative;
-    height: 250px;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: none;
   }
-
-  .job_seeker_card .resume img {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    object-fit: cover;
-    object-position: center top;
-    top: 0;
-    left: 0;
-    transition: transform 0.3s ease;
-  }
-
-  .job_seeker_card .resume img:hover {
-    transform: scale(1.05);
-  }
-
   .job_seeker_card .btn_area {
-    flex: 1;
-    display: flex;
-    margin: 4px;
-    align-items: center;
-    justify-content: center;
+    flex: none;
   }
+}
 
+@media (max-width: 950px) {
+  .job_seeker_card {
+    flex-direction: column;
+    margin: 15px auto;
+    align-items: flex-start;
+    padding: 20px;
+  }
+  .job_seeker_card .detail {
+    flex: none;
+    width: 100%;
+    padding: 10px 0;
+  }
+  .job_seeker_card .details {
+    width: 100%;
+    padding: 10px 0;
+  }
+  .job_seeker_card .resume {
+    display: block;
+    width: 100%;
+    margin: 20px 0;
+  }
+  .job_seeker_card .btn_area {
+    width: 100%;
+    margin-top: 15px;
+  }
   .job_seeker_card .btn_area button {
-    background: #1e88e5;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 35px;
-    font-size: 18px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(30, 136, 229, 0.2);
+    width: 100%;
   }
+}
 
-  .job_seeker_card .btn_area button:hover {
-    background: #1565c0;
-    box-shadow: 0 4px 8px rgba(30, 136, 229, 0.3);
-    transform: translateY(-1px);
+@media (max-width: 360px) {
+  .job_seeker_card {
+    padding: 15px;
   }
-
-  @media (max-width: 1520px) {
-    .my_applications .container {
-      min-width: 100%;
-      padding: 0 20px;
-    }
+  .job_seeker_card .resume {
+    height: 200px;
   }
-
-  @media (max-width: 1250px) {
-    .job_seeker_card .detail {
-      flex: 1;
-    }
-    .job_seeker_card .details {
-      flex: 1;
-    }
-    .job_seeker_card .resume {
-      display: none;
-    }
-    .job_seeker_card .btn_area {
-      flex: none;
-    }
-  }
-
-  @media (max-width: 950px) {
-    .job_seeker_card {
-      flex-direction: column;
-      margin: 15px auto;
-      align-items: flex-start;
-      padding: 20px;
-    }
-    .job_seeker_card .detail {
-      flex: none;
-      width: 100%;
-      padding: 10px 0;
-    }
-    .job_seeker_card .details {
-      width: 100%;
-      padding: 10px 0;
-    }
-    .job_seeker_card .resume {
-      display: block;
-      width: 100%;
-      margin: 20px 0;
-    }
-    .job_seeker_card .btn_area {
-      width: 100%;
-      margin-top: 15px;
-    }
-    .job_seeker_card .btn_area button {
-      width: 100%;
-    }
-  }
-
-  @media (max-width: 360px) {
-    .job_seeker_card {
-      padding: 15px;
-    }
-    .job_seeker_card .resume {
-      height: 200px;
-    }
-  }
+}
 .job_post {
   background: #f1f3f6;
-  padding: 50px 20px;
+  padding: 55px 20px;
   min-height: 870px;
   display: flex;
   align-items: center;
@@ -1243,7 +1253,7 @@ p {
   gap: 35px;
   align-items: center;
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 .job_post .container form {
   width: 100%;

@@ -1,7 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLock2Fill } from "react-icons/ri";
-import { PiPassword } from "react-icons/pi";
 import { Link, Navigate } from "react-router-dom";
 import { FaRegUser } from "react-icons/fa";
 import axios from "axios";
@@ -47,7 +46,7 @@ const Login = () => {
       );
       toast.success(resp.data.message);
       setShowVerification(true);
-      setTimer(60); // Set 60 seconds cooldown
+      setTimer(60);
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred");
     }
@@ -80,10 +79,9 @@ const Login = () => {
       const data = resp.data;
       toast.success(data.message);
 
-      if(data.user.role === "Student" && data.user.isVerified === false) {
+      if(data.user.role === "Student" && !data.user.isVerified) {
         setIsStudentNotVerified(true);
-      }
-      else{
+      } else {
         setEmail("");
         setPassword("");
         setRole("");
@@ -126,118 +124,124 @@ const Login = () => {
   }
 
   return (
-    <>
-      <section className="authPage">
-        <div className="container">
-          <div className="header">
-            <img src="./nita.png" alt="logo" />
-            <h3>Login to your account</h3>
-          </div>
-          {isStudentNotVerified ? (
-            <div className="">
-              <p>
-                Please enter the verification code sent to your <br /> email
-                address.
-              </p>
-              <br />
-              <br />
-              <form onSubmit={handleVerifyStudent}>
-                <div className="inputTag">
-                  <label>Verification Code</label>
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Enter verification code"
-                      value={verificationCode}
-                      onChange={(e) => setVerificationCode(e.target.value)}
-                      required
-                    />
-                    <MdOutlineMailOutline />
-                  </div>
-                </div>
-                <button type="submit">
-                  Verify Code
-                </button>
-                <button
-                  type="button"
-                  onClick={handleSendVerification}
-                  disabled={timer > 0}
-                >
-                  {timer > 0 ? `Resend Code (${timer}s)` : "Resend Code"}
-                </button>
-              </form>
-            </div>
-          ) : (
-            <form onSubmit={handleLogin}>
+    <section className="authPage">
+      <div className="container">
+        <div className="header">
+          <img src="./nita.png" alt="logo" />
+          <h3>Login to your account</h3>
+        </div>
+        {isStudentNotVerified ? (
+          <div>
+            <p>
+              Please enter the verification code sent to your <br /> email
+              address.
+            </p>
+            <br />
+            <br />
+            <form onSubmit={handleVerifyStudent}>
               <div className="inputTag">
-                <label>Login As</label>
-                <div>
-                  <select
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                    required
-                  >
-                    <option value="">Select Role</option>
-                    <option value="TNP">TNPs</option>
-                    <option value="Student">Students</option>
-                  </select>
-                  <FaRegUser />
-                </div>
-              </div>
-              <div className="inputTag">
-                <label>Email Address</label>
+                <label>Verification Code</label>
                 <div>
                   <input
-                    type="email"
-                    placeholder="example@email.com"
-                    value={email}
+                    type="text"
+                    placeholder="Enter verification code"
+                    value={verificationCode}
+                    onChange={(e) => setVerificationCode(e.target.value)}
                     required
-                    onChange={(e) => setEmail(e.target.value)}
                   />
                   <MdOutlineMailOutline />
                 </div>
               </div>
+              <button type="submit">Verify Code</button>
+              <button
+                type="button"
+                onClick={handleSendVerification}
+                disabled={timer > 0}
+              >
+                {timer > 0 ? `Resend Code (${timer}s)` : "Resend Code"}
+              </button>
+            </form>
+          </div>
+        ) : (
+          <form onSubmit={handleLogin}>
+            <div className="inputTag">
+              <label>Login As</label>
+              <div>
+                <select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  required
+                >
+                  <option value="">Select Role</option>
+                  <option value="TNP">TNPs</option>
+                  <option value="Student">Students</option>
+                </select>
+                <FaRegUser />
+              </div>
+            </div>
+            <div className="inputTag">
+              <label>Email Address</label>
+              <div>
+                <input
+                  type="email"
+                  placeholder="example@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <MdOutlineMailOutline />
+              </div>
+            </div>
 
-              {role === "TNP" && (
-                <div className="inputTag">
-                  <label>Verification Code</label>
-                  <div>
-                    <input
-                      type="text"
-                      placeholder="Enter verification code"
-                      value={verificationCode}
-                      required
-                      onChange={(e) => setVerificationCode(e.target.value)}
-                    />
-                    <PiPassword />
-                  </div>
-                </div>
-              )}
+            {role === "TNP" && (
               <div className="inputTag">
-                <label>Password</label>
+                <label>Verification Code</label>
                 <div>
                   <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
+                    type="text"
+                    placeholder="Enter verification code"
+                    value={verificationCode}
+                    onChange={(e) => setVerificationCode(e.target.value)}
                     required
-                    onChange={(e) => setPassword(e.target.value)}
                   />
-                  <RiLock2Fill />
+                  <button 
+                    type="button" 
+                    onClick={handleSendVerification}
+                    disabled={timer > 0}
+                  >
+                    {timer > 0
+                      ? `Resend Code (${timer}s)`
+                      : showVerification
+                      ? "Resend Code"
+                      : "Send Code"}
+                  </button>
                 </div>
               </div>
-              {role === "TNP" && (
-                <button type="button" onClick={handleSendVerification} disabled={timer > 0}>
-                  {timer > 0 ? `Resend Code (${timer}s)` : (showVerification ? "Resend Code" : "Send Verification Code")}
-                </button>
-              )}
-              <button type="submit">Login</button>
-              <Link to={"/register"}>Register Now</Link>
-            </form>
-          )}
-        </div>
-      </section>
-    </>
+            )}
+            <div className="inputTag">
+              <label>Password</label>
+              <div>
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <RiLock2Fill />
+              </div>
+            </div>
+            <button type="submit">Login</button>
+            <Link className="forgot" to={"/forgot-password"}>
+              Forgot Password?
+            </Link>
+            <p>
+              Don't have an account? <Link to={"/register"}>Sign Up</Link>
+            </p>
+          </form>
+        )}
+      </div>
+    </section>
   );
 };
 
