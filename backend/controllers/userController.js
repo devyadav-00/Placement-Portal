@@ -150,3 +150,64 @@ export const generateVerificationCode = catchAsyncErrors(
     });
   }
 );
+
+  export const forgotPassword = catchAsyncErrors(async (req, res, next) => {
+    const { email, verificationCode, newPassword } = req.body;
+    const user = await User.findOne({ email });
+  if (!user) {
+    return next(new ErrorHandler("User not found.", 404));
+  }
+
+  if (!verificationCode) {
+    return next(new ErrorHandler("Verification code is required.", 400));
+  }
+    if (user.verificationCode === verificationCode) {
+      res.status(200).json({
+        success: true,
+        message: "Verification code is correct.",
+      });
+  }
+    
+  });
+
+export const generateNewPassword = catchAsyncErrors(async (req, res, next) => {
+  const { email, newPassword } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+      return next(new ErrorHandler("User not found.", 404));
+  }
+  user.password = newPassword;
+  await user.save();
+  sendToken(user, 201, res, "Password updated successfully.");
+  res.status(200).json({
+    success: true,
+    message: "Password updated successfully.",
+  });
+});
+
+// update password
+export const updatePassword = catchAsyncErrors(async (req, res, next) => {
+  const { oldPassword, newPassword } = req.body;
+  // console.log(oldPassword, newPassword);
+  
+
+  if (!oldPassword || !newPassword) {
+    return next(new ErrorHandler("Old password and new password are required.", 400));
+  }
+
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    return next(new ErrorHandler("User not found.", 404));
+  }
+
+  const isPasswordMatched = await user.comparePassword(oldPassword);
+
+  if (!isPasswordMatched) {
+    return next(new ErrorHandler("Old password is incorrect.", 400));
+  }
+
+  user.password = newPassword;
+  await user.save();
+  sendToken(user, 200, res, "Password updated successfully.");
+});
