@@ -3,7 +3,7 @@ import { TPO } from  "../models/tpoModel.js";
 import ErrorHandler from "../middlewares/error.js";
 import { sendToken } from "../utils/jwtToken.js";
 import { User } from "../models/userSchema.js";
-import { sendVerificationCode } from "../utils/email.js";
+import { sendVerificationCode } from "../utils/verifyEmail/email.js";
 
 export const registerTPO = catchAsyncErrors(async (req, res, next) => {
     const { firstname, lastname, email, phone, password } = req.body;

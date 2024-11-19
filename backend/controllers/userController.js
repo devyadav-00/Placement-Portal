@@ -3,7 +3,7 @@ import { User } from "../models/userSchema.js";
 import ErrorHandler from "../middlewares/error.js";
 import { sendToken } from "../utils/jwtToken.js";
 import { TPO } from "../models/tpoModel.js";
-import { sendVerificationCode } from "../utils/email.js";
+import { sendVerificationCode } from "../utils/verifyEmail/email.js";
 
 export const register = catchAsyncErrors(async (req, res, next) => {
   const { name, email, phone, password, role, enrollment, address } = req.body;

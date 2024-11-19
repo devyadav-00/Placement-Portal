@@ -61,6 +61,8 @@ export const postJob = catchAsyncErrors(async (req, res, next) => {
     salaryTo,
     postedBy,
   });
+
+  
   res.status(200).json({
     success: true,
     message: "Job Posted Successfully!",

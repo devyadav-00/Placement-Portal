@@ -1,4 +1,4 @@
-import transporter from "./email.config.js";
+import transporter from "../email.config.js";
 import { Verification_Email_Template } from "./verificationEmailTemplate.js";
 
 
