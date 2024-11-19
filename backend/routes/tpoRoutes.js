@@ -1,6 +1,6 @@
 import express from "express";
 import { isAuthenticatedTPO } from "../middlewares/auth.js";
-import { generateVerificationCodeTPO, getPendingTNPs, getTPO, handleTNPRequest, loginTPO, logoutTPO, registerTPO, verifyUserTPO } from "../controllers/tpoController.js";
+import { forgotPasswordTPO, generateVerificationCodeTPO, getPendingTNPs, getTPO, handleTNPRequest, loginTPO, logoutTPO, registerTPO, updatePasswordTPO, verifyUserTPO } from "../controllers/tpoController.js";
 import { authorizeRoles } from "../middlewares/tpoAuth.js";
 
 const router = express.Router();
@@ -24,5 +24,8 @@ router.get(
   authorizeRoles("TPO"),
   getPendingTNPs
 );
+router.post("/forgot-password", forgotPasswordTPO);
+router.post("/generate-new-password", generateVerificationCodeTPO);
+router.post(("/update-password", isAuthenticatedTPO, updatePasswordTPO));
     
 export default router;

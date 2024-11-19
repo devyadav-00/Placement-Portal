@@ -171,3 +171,52 @@ export const generateVerificationCodeTPO = catchAsyncErrors(
     });
   }
 );
+
+export const forgotPasswordTPO = catchAsyncErrors(async (req, res, next) => {
+  const { email, verificationCode, newPassword } = req.body;
+  const user = await User.findOne({ email });
+if (!user) {
+  return next(new ErrorHandler("User not found.", 404));
+}
+
+if (!verificationCode) {
+  return next(new ErrorHandler("Verification code is required.", 400));
+}
+  if (user.verificationCode === verificationCode) {
+    res.status(200).json({
+      success: true,
+      message: "Verification code is correct.",
+    });
+}
+  
+});
+
+export const generateNewPasswordTPO = catchAsyncErrors(async (req, res, next) => {
+const { email, newPassword } = req.body;
+const user = await User.findOne({ email });
+if (!user) {
+    return next(new ErrorHandler("User not found.", 404));
+}
+user.password = newPassword;
+await user.save();
+sendToken(user, 201, res, "Password updated successfully.");
+res.status(200).json({
+  success: true,
+  message: "Password updated successfully.",
+});
+});
+
+export const updatePasswordTPO = catchAsyncErrors(async (req, res, next) => {
+  const { oldPassword, newPassword } = req.body;
+  const user = await User.findById(req.user._id).select("+password");
+  if (!user) {
+    return next(new ErrorHandler("User not found.", 404));
+  }
+  const isPasswordMatched = await user.comparePassword(oldPassword);
+  if (!isPasswordMatched) {
+    return next(new ErrorHandler("Old password is incorrect.", 400));
+  }
+  user.password = newPassword;
+  await user.save();
+  sendToken(user, 201, res, "Password updated successfully.");
+});
