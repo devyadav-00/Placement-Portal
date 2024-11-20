@@ -134,7 +134,7 @@ export const handleTNPRequest = catchAsyncErrors(async (req, res, next) => {
 export const verifyUserTPO = catchAsyncErrors(async (req, res, next) => {
   const { verificationCode, email } = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await TPO.findOne({ email });
   if (!user) {
     return next(new ErrorHandler("User not found.", 404));
   }
@@ -174,7 +174,7 @@ export const generateVerificationCodeTPO = catchAsyncErrors(
 
 export const forgotPasswordTPO = catchAsyncErrors(async (req, res, next) => {
   const { email, verificationCode } = req.body;
-  const user = await User.findOne({ email });
+  const user = await TPO.findOne({ email });
 if (!user) {
   return next(new ErrorHandler("User not found.", 404));
 }
@@ -193,7 +193,7 @@ if (!verificationCode) {
 
 export const generateNewPasswordTPO = catchAsyncErrors(async (req, res, next) => {
 const { email, newPassword } = req.body;
-const user = await User.findOne({ email });
+const user = await TPO.findOne({ email });
 if (!user) {
     return next(new ErrorHandler("User not found.", 404));
 }
@@ -208,7 +208,7 @@ res.status(200).json({
 
 export const updatePasswordTPO = catchAsyncErrors(async (req, res, next) => {
   const { oldPassword, newPassword } = req.body;
-  const user = await User.findById(req.user._id).select("+password");
+  const user = await TPO.findById(req.user._id).select("+password");
   if (!user) {
     return next(new ErrorHandler("User not found.", 404));
   }

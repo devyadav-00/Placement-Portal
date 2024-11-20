@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import validator from "validator";
+import { Account_Verification_Success_Template } from "../utils/AccountVerificationTemplate.js";
+import transporter from "../utils/email.config.js";
 
 const tpoSchema = new mongoose.Schema(
   {
@@ -51,5 +53,23 @@ tpoSchema.methods.getJWTToken = function () {
     expiresIn: process.env.JWT_EXPIRE,
   });
 };
+
+tpoSchema.post("save", async function (doc) {
+  if (doc.isVerified) {
+    const mailOptions = {
+      from: `"NITA-PLACEMENT-CELL" <${process.env.NODEMAIL_EMAIL}>`,
+      to: doc.email,
+      subject: "Account Verified",
+      text: `Hello ${doc.firstname},\n\nYour account has been successfully verified. You can now access all our features and resources.\n\nRegards,\nTeam NITA Placement Cell`,
+      html: Account_Verification_Success_Template(doc),
+    };
+    try {
+      await transporter.sendMail(mailOptions);
+    } catch (error) {
+      console.error("Error sending verification email:", error);
+    }
+  }
+});
+
 
 export const TPO = mongoose.model("TPO", tpoSchema);
