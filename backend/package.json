@@ -6,9 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js" 
   },
-  "author": "Satwik Gupta and Dev yadav (SSSD)",
+  "author": "Satwik Gupta and Dev yadav",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
