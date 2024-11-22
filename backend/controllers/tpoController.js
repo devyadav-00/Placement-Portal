@@ -4,6 +4,8 @@ import ErrorHandler from "../middlewares/error.js";
 import { sendToken } from "../utils/jwtToken.js";
 import { User } from "../models/userSchema.js";
 import { sendVerificationCode } from "../utils/verifyEmail/email.js";
+import { sentRegisteredEmail } from "../utils/registeredUser/register.js";
+import { sendTnpStatusEmailApproved, sendTnpStatusEmailDeclined } from "../utils/sendTnpStatusEmail.js";
 
 export const registerTPO = catchAsyncErrors(async (req, res, next) => {
     const { firstname, lastname, email, phone, password } = req.body;
@@ -57,7 +59,10 @@ export const loginTPO = catchAsyncErrors(async (req, res, next) => {
   if (!isPasswordMatched) {
     return next(new ErrorHandler("Invalid Password.", 400));
   }
+  if(tpo.isVerified === false) {
+    sentRegisteredEmail(tpo);
 
+  }
   tpo.verificationCode = null;
   tpo.isVerified = true;
   await tpo.save();
@@ -92,12 +97,15 @@ export const handleTNPRequest = catchAsyncErrors(async (req, res, next) => {
       return next(new ErrorHandler("TNP user not found!"));
     }
   
-    user.status = action;
+  user.status = action;
+  
     await user.save();
   
-    if (action === "Approved") {
+  if (action === "Approved") {
+    sendTnpStatusEmailApproved(user)
       res.status(200).json({ success: true, message: "TNP registration approved!" });
-    } else {
+  } else {
+    sendTnpStatusEmailDeclined(user);
       res.status(200).json({ success: true, message: "TNP registration declined. Functionality hidden." });
     }
   });
@@ -142,9 +150,13 @@ export const verifyUserTPO = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Invalid verification code.", 400));
   }
 
+
   user.isVerified = true;
   user.verificationCode = null;
   await user.save();
+
+  sentRegisteredEmail(user);
+
 
   sendToken(user, 201, res, "User Registered Successfully!");
 });
