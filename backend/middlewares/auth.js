@@ -26,8 +26,5 @@ export const isAuthenticatedTPO = catchAsyncErrors(async (req, res, next) => {
   req.user = await TPO.findById(decoded.id).select('-password');
   req.user["role"] = "TPO";
 
-  console.log("req.user", req.user);
-  
-
   next();
 });

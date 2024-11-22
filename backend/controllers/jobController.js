@@ -2,6 +2,9 @@ import { catchAsyncErrors } from "../middlewares/catchAsyncError.js";
 import { Job } from "../models/jobSchema.js";
 import ErrorHandler from "../middlewares/error.js";
 import { Application } from "../models/applicationSchema.js";
+import transporter from "../utils/email.config.js";
+import { NewJobPostedNotificationTemplate } from "../utils/NewJobPostedNotificationTemplate.js";
+import { User } from "../models/userSchema.js";
 
 export const getAllJobs = catchAsyncErrors(async (req, res, next) => {
   const jobs = await Job.find({ expired: false });
@@ -62,6 +65,36 @@ export const postJob = catchAsyncErrors(async (req, res, next) => {
     postedBy,
   });
 
+
+  
+  
+    
+  const students = await User.find({ role: "Student" }, "email name"); // Correct query method
+  if (!students || students.length === 0) {
+    console.log("No students found to notify.");
+  } else {
+    console.log(".env email", process.env.NODEMAIL_EMAIL);
+    
+    for (const student of students) {
+      const mailOptions = {
+        from: `"NITA-PLACEMENT-CELL" <${process.env.NODEMAIL_EMAIL}>`,
+        to: student.email,
+        subject: "New Job Posted",
+        html: NewJobPostedNotificationTemplate(job, student.name), // Ensure 'job' is passed correctly
+      };
+      
+      try {
+        await transporter.sendMail(mailOptions);
+        // console.log(`Notification sent to ${student.email}`);
+      } catch (error) {
+        console.error(`Error sending email to ${student.email}:`, error.message);
+      }
+    }
+  }
+  
+    
+  
+  
   
   res.status(200).json({
     success: true,

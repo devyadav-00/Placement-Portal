@@ -4,6 +4,7 @@ import ErrorHandler from "../middlewares/error.js";
 import { sendToken } from "../utils/jwtToken.js";
 import { TPO } from "../models/tpoModel.js";
 import { sendVerificationCode } from "../utils/verifyEmail/email.js";
+import { sentRegisteredEmail } from "../utils/registeredUser/register.js";
 
 export const register = catchAsyncErrors(async (req, res, next) => {
   const { name, email, phone, password, role, enrollment, address } = req.body;
@@ -54,19 +55,25 @@ export const login = catchAsyncErrors(async (req, res, next) => {
       new ErrorHandler(`User with provided email and ${role} not found!`, 404)
     );
   }
+  
+  const isPasswordMatched = await user.comparePassword(password);
+  if (!isPasswordMatched) {
+    return next(new ErrorHandler("Invalid Password.", 400));
+  }
+
   if (role === "TNP") {
     if (user.verificationCode !== verificationCode) {
       return next(new ErrorHandler("Invalid verification code.", 400));
+    }
+    if (user.isVerified === false) {
+      sentRegisteredEmail(user);
     }
     user.isVerified = true;
     user.verificationCode = null;
     await user.save();
   }
 
-  const isPasswordMatched = await user.comparePassword(password);
-  if (!isPasswordMatched) {
-    return next(new ErrorHandler("Invalid Password.", 400));
-  }
+  
   if (role === "Student" && user.isVerified === false) {
     const verificationCode = Math.floor(
       100000 + Math.random() * 900000
@@ -125,6 +132,8 @@ export const verifyUser = catchAsyncErrors(async (req, res, next) => {
   user.isVerified = true;
   user.verificationCode = null;
   await user.save();
+
+  sentRegisteredEmail(user);
 
   sendToken(user, 201, res, "User Registered Successfully!");
 });
